@@ -8,7 +8,7 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "Caps Lock -> Control + Escape",
+            "description": "Fx Defaults Caps -> Control + Escape And Hyper Space -> CheatSheet",
             "manipulators": [
               {
                 "type": "basic",
@@ -16,9 +16,20 @@
                 "from": {"key_code": "caps_lock"},
                 "to": [{"key_code": "left_control", "modifiers": ["any"]}],
                 "to_if_alone": [{"key_code": "escape"}]
-              }
+              },
+              {
+                "type": "basic",
+                "description": "Open CheatSheet",
+                "from": {"key_code": "spacebar", "modifiers": {"mandatory": ["left_shift", "left_control", "left_command", "left_option"]}},
+                "to": [
+                  {
+                    "shell_command": "qlmanage -p ~/.assets/cheat_sheet.pdf"
+                  }
+                ]
+              } 
             ]
           },
+          
           {
             "description": "Hyper HJKL -> Arrow Keys",
             "manipulators": [
