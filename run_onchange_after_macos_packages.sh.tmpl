@@ -4,30 +4,32 @@
 
 echo -e "Installing packages with homebrew"
 
-
 brew bundle --no-lock --file=/dev/stdin <<EOF
-tap "1password/tap"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
 
-# IINA
-# Jetbrains-toolbox
-# GoogleDrive
-# Transmission
-# Raycast
-
-brew "azure-cli"
+brew "exa"
 brew "git"
+brew "azure-cli"
 brew "httpie"
 brew "neovim"
 brew "node"
 
-
+cask "microsoft-office"
+cask "adguard"
+cask "transmission"
+cask "jetbrains-toolbox"
+cask "raycast"
+cask "google-chrome"
+cask "transmission"
 cask "1password-cli"
+cask "1password-beta"
 cask "iterm2"
 cask "karabiner-elements"
+cask "postgresql"
 cask "pgadmin4"
+cask "iina"
 EOF
 {{ end -}}
 {{- end -}}
