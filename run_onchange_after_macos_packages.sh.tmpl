@@ -2,6 +2,7 @@
 {{- if eq .workspace "personal_mac" -}}
 #!/bin/bash
 
+export HOMEBREW_CASK_OPTS="--no-quarantine"
 echo -e "Installing packages with homebrew"
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
@@ -15,7 +16,11 @@ brew "azure-cli"
 brew "httpie"
 brew "neovim"
 brew "node"
+brew "postgresql"
+brew "thefuck"
+brew "fzf"
 
+cask "warp"
 cask "microsoft-office"
 cask "adguard"
 cask "transmission"
@@ -24,10 +29,9 @@ cask "raycast"
 cask "google-chrome"
 cask "transmission"
 cask "1password-cli"
-cask "1password-beta"
+#cask "1password-beta"
 cask "iterm2"
 cask "karabiner-elements"
-cask "postgresql"
 cask "pgadmin4"
 cask "iina"
 EOF
