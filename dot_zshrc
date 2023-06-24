@@ -1,0 +1,27 @@
+# Variables
+
+export HOMEBREW_CASK_OPTS="--no-quarantine"
+
+
+
+# ZSH Options
+
+
+
+# Aliases
+alias ls='ls -lAFh'
+
+
+
+# Propmt
+PROMPT='%1~ %L %# '
+RPROMPT='%*'
+# Locations to $Path Variable
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# Functions
+function mkcd() { mkdir -p "$@" && cd "$_"; }
+
+
+# Plugins
+
