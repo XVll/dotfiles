@@ -1,0 +1,33 @@
+format = """
+\\[\
+$username\
+[ @ ](fg:#1D9ADA)\
+$directory\
+\\] \
+$git_branch\
+$git_status\
+$git_metrics\
+$cmd_duration\
+$character\
+"""
+
+[character]
+success_symbol = '[ ➜](bold green)'
+error_symbol = '[ ✗](#E84D44)'
+
+[cmd_duration]
+format = "[ $duration]($style)"
+
+[directory]
+format = "[$path]($style)"
+
+[username]
+format = '[$user]($style)'
+disabled = false
+show_always = true
+
+[git_branch]
+format = '[$symbol$branch ]($style)'
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style))'
