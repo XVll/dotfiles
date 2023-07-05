@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 osascript -e 'tell application "System Preferences" to quit'
 
 defaults write NSGlobalDomain AppleInterfaceStyle Dark
@@ -60,3 +61,6 @@ sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
 defaults write com.apple.Siri StatusMenuVisible -bool false
 
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+
+
+
