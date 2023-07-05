@@ -3,7 +3,7 @@ format = """
 $username\
 [ @ ](fg:#1D9ADA)\
 $directory\
-\\] \
+\\]\
 $git_branch\
 $git_status\
 $git_metrics\
@@ -27,7 +27,7 @@ disabled = false
 show_always = true
 
 [git_branch]
-format = '[$symbol$branch ]($style)'
+format = '[ $symbol$branch ]($style)'
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style))'
