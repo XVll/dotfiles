@@ -96,5 +96,15 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ll="exa -l -g --icons"
+alias ls="exa --icons"
+alias lt="exa --tree --icons -a"
+function fp() {
+   local file
 
+    IFS=$'\n' read -d '' -r file < <(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')
+    if [ -n "$file" ]; then
+        nvim "$file"
+    fi
+}
 eval "$(starship init zsh)"
