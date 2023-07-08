@@ -21,7 +21,7 @@ vimcmd_replace_symbol = '[ ](bold green)'
 vimcmd_visual_symbol = '[ ](bold green)'
 
 [cmd_duration]
-format = "[ $duration]($style)"
+format = "[  $duration]($style)"
 
 [directory]
 format = "[$path]($style)"
