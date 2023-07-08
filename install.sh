@@ -51,5 +51,5 @@ read -n 1 -s -r
 
 
 echo "Starting chezmoi..."
-chezmoi init XVll --apply
+chezmoi init XVll --apply --ssh
 echo "Done!"
