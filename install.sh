@@ -4,7 +4,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 
-# curl -fsSL https://raw.githubusercontent.com/XVll/dotfiles/main/install.sh | bash
+# curl -fsSL https://raw.githubusercontent.com/XVll/dotfiles/main/install.sh | sh
 
 if ! xcode-select --print-path &> /dev/null
 then

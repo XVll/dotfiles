@@ -88,9 +88,8 @@ sethandler <C-U> a:vim
 "map <A-]> <Action>(copilot.cycleNextInlays)
 "map <A-]> <Action>(copilot.cyclePrevInlays)
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""  PANE NAVIGATION """"""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"PANE NAVIGATION 
+
 let g:WhichKeyDesc_window = "<leader>w Pane Management"
 nnoremap <C-j> <C-w>j                               
 nnoremap <C-k> <C-w>k                               
@@ -110,9 +109,8 @@ map <leader>ww <Action>(NextSplitter)
 
 map <leader>wd <Action>(ToggleDistractionFreeMode)
 map <leader>wn <Action>(EditSourceInNewWindow)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""" TAB NAVIGATION """"""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"TAB NAVIGATION 
 let g:WhichKeyDesc_window = "<leader>t Tab Management"
 map <Tab> <Action>(NextTab)
 map <S-Tab> <Action>(PreviousTab)
@@ -122,9 +120,8 @@ map <leader>tq <Action>(CloseAllEditors)
 map <leader>ta <Action>(CloseAllEditorsButActive)
 map <leader>tu <Action>(CloseAllUnpinnedEditors)
 map <leader>tp <Action>(PinActiveEditorTab)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""" NERD TREE NAVIGATION """""""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"NERD TREE NAVIGATION 
 let g:WhichKeyDesc_window = "<leader>n Nerd Tree"
 map <leader>nn :NERDTree<CR>
 map <leader>nc :NERDTreeClose<CR>
@@ -134,9 +131,7 @@ let g:NERDTreeMapPreviewVSplit="gv"
 let g:NERDTreeMapOpenSplit='s'
 let g:NERDTreeMapPreviewSplit='gs'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""" TOOL MENUS """"""""""""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"TOOL MENUS 
 let g:WhichKeyDesc_window = "<leader>t Tools Menu"
 map <leader>m1 <Action>(ActivateProjectToolWindow) 
 map <leader>m2 <Action>(ActivateBookmarksToolWindow) 
@@ -161,9 +156,8 @@ map <leader>mq <Action>(HideAllWindows)
 "map <C-m>j <Action>(ResizeWindowDown)
 "map <C-m>k <Action>(ResizeWindowUp)
 "map <C-m>l <Action>(ResizeWindowRight)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" SEARCH & FIND """"""""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"SEARCH & FIND
 let g:WhichKeyDesc_window = "<leader>f Find & Search"
 map <leader>fj <Action>(FindInPath)
 map <leader>fr <Action>(ReplaceInPath)
@@ -176,9 +170,8 @@ map <leader>ff <Action>(GotoFile)
 map <leader>fc <Action>(GotoClass) 
 map <leader>fi <Action>(SelectIn)
 map <leader>ft <Action>(TextSearchAction)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE NAVIGATION """"""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE NAVIGATION
 map <C-i> <Action>(Back)
 map <C-o> <Action>(Forward)
 map g; <Action>(JumpToLastChange)
@@ -193,9 +186,8 @@ map ]c <Action>(VcsShowNextChangeMarker)
 map [c <Action>(VcsShowPrevChangeMarker)
 map ]d <Action>(NextDiff)
 map [d <Action>(PreviousDiff)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE NAVIGATION - SYMBOLS """"""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE NAVIGATION - SYMBOLS
 let g:WhichKeyDesc_window = "<leader>g Symbol Navigation"
 map <leader>gg <Action>(ReSharperNavigateTo)
 map <leader>gf <Action>(FindUsages)
@@ -203,16 +195,14 @@ map <leader>gu <Action>(ShowUsages)
 map <leader>gd <Action>(GotoDeclaration)
 map <leader>gs <Action>(GotoSuperMethod)
 map <leader>gi <Action>(GotoImplementation)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE NAVIGATION - BOOKMARKS """"""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE NAVIGATION - BOOKMARKS 
 map mm <Action>(ToggleBookmark)
 map ms <Action>(ShowBookmarks)
 map mn <Action>(GotoNextBookmark)
 map mp <Action>(GotoPreviousBookmark)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""  CODE ANALYSIS & ASSISTANCE """"""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE ANALYSIS & ASSISTANCE
 let g:WhichKeyDesc_window = "<leader>i Insert & Inspect"
 imap <C-enter> <Action>(CodeCompletion)
 nmap <C-enter> <Action>(CodeCompletion)
@@ -225,9 +215,8 @@ map <C-\> <Action>(ParameterInfo)
 map <C-f> <Action>(QuickImplementations)
 map <leader>ii <Action>(Generate)
 map <leader>it <Action>(InspectThis)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE EDITING """""""""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE EDITING
 let g:WhichKeyDesc_window = "<leader>p Paste"
 let g:WhichKeyDesc_window = "<leader>c Copy"
 map <leader>pp <Action>(EditorPasteSimple)
@@ -240,18 +229,16 @@ vmap <C-j> <Action>(MoveStatementDown)
 vmap <C-k> <Action>(MoveStatementUp)
 xmap <C-j> <Action>(MoveStatementDown)
 xmap <C-k> <Action>(MoveStatementUp)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE FOLDING """""""""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE FOLDING
 map zo <Action>(ExpandRegionRecursively)
 map zr <Action>(ExpandAllRegions)
 map zc <Action>(CollapseRegionRecursively)
 map zm <Action>(CollapseAllRegions)
 map za <Action>(ExpandCollapseToggleAction)
 map zf <Action>(CollapseSelection)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE REFACTORING """""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE REFACTORING
 let g:WhichKeyDesc_window = "<leader>r Refactoring"
 map <leader>rt <Action>(Refactorings.QuickListPopupAction)
 map <leader>rr <Action>(RenameElement)
@@ -262,27 +249,24 @@ map <leader>rp <Action>(IntroduceParameter)
 map <leader>rv <Action>(IntroduceVariable)
 map <leader>rd <Action>(SafeDelete)
 map <leader>rs <Action>(ChangeSignature)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE EXTRACTING """"""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE EXTRACTING
 let g:WhichKeyDesc_window = "<leader>e Extraction"
 map <leader>ep <Action>(RiderBackendAction-Type2Partial)
 map <leader>ei <Action>(ExtractInterface)
 map <leader>es <Action>(ExtractSuperclass)
 map <leader>ec <Action>(RiderBackendAction-ExtractClass)
 map <leader>em <Action>(ExtractMethod)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" CODE FORMAT """"""""""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"CODE FORMAT
 map == <Action>(ReformatCode)
 map =c <Action>(CodeCleanup)
 map =s <Action>(SilentCodeCleanup)
 map =w <Action>(EditorToggleShowWhitespaces)
 map =f <Action>(EditorToggleUseSoftWraps)
 map =a <Action>(AutoIndentLines)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" MULTI LINE EDIT """"""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"MULTI LINE EDIT
 let g:WhichKeyDesc_window = "<leader>s Multi Line Edit
 map <leader>sj <Action>(EditorCloneCaretBelow)
 map <leader>sk <Action>(EditorCloneCaretAbove)
@@ -291,9 +275,7 @@ map <leader>s. <Action>(SelectNextOccurrence)
 map <leader>s, <Action>(UnselectPreviousOccurrence)
 map <leader>s; <Action>(SelectAllOccurrences)
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" UNIT TESTING """"""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"UNIT TESTING
 let g:WhichKeyDesc_window = "<leader>u Unit Testing"
 map <leader>uj <Action>(RiderUnitTestQuickListPopupAction)
 map <leader>ur <Action>(RiderUnitTestRunContextAction)
@@ -308,23 +290,20 @@ map <leader>ua <ActionRiderUnitTestAppendTestsAction>
 map <leader>uy <Action>(RiderUnitTestRunCurrentSessionAction)
 " TODO : Find  action name this is placeholder
 map <leader>um <Action>(RiderUnitTestRunUnderDotMemory)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""" VERSION CONTROL """"""""""""""""""""""""""""""""""""" 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"VERSION CONTROL
 let g:WhichKeyDesc_window = "<leader>v Version Control"
 map <leader>vv <Action>(Vcs.QuickListPopupAction)
 map <leader>vc <Action>(CheckinProject)
 map <leader>vu <Action>(Vcs.UpdateProject)
 map <leader>vr <Action>(ChangesView.Revert)
 map <leader>vp <Action>(Vcs.Push)
-"
 map <leader>vd <Action>(Compare.SameVersion)
 map <leader>vh <Action>(Diff.ApplyLeftSide)
 map <leader>vl <Action>(Diff.ApplyRightSide)
 map <leader>vs <Action>(Diff.FocusOppositePane)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""" RUN & DEBUG """""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"RUN & DEBUG
 let g:WhichKeyDesc_window = "<leader>d Run & Debug"
 map <leader>dd <Action>(Debug)
 map <leader>dr <Action>(Run)
@@ -352,9 +331,8 @@ map <leader>xd <Action>(ToggleBreakpointEnabled)
 map <leader>xv <Action>(ViewBreakpoints)
 map <leader>xe <Action>(EditBreakpoint)
 map <leader>xm <Action>(XDebugger.MuteBreakpoints)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""" BUILD """""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"BUILD
 let g:WhichKeyDesc_window = "<leader>b Build"
 map <leader>bb <Action>(BuildSolutionAction)
 map <leader>bp <Action>(BuildCurrentProject)
