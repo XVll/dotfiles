@@ -1,7 +1,7 @@
 format = """
 \\[\
 $username\
-[ @ ](fg:#1D9ADA)\
+[ 󰁥 ](fg:#1D9ADA)\
 $directory\
 \\]\
 $git_branch\
@@ -10,7 +10,7 @@ $git_metrics\
 $cmd_duration\
 $character\
 """
-
+add_newline = false
 
 [character]
 success_symbol = '[ ](bold green)'

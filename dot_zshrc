@@ -99,8 +99,9 @@ source $ZSH/oh-my-zsh.sh
 alias ll="exa -l -g --icons"
 alias ls="exa --icons"
 alias lt="exa --tree --icons -a"
-alias vim="lvim"
-alias vi="lvim"
+alias vim="nvim"
+alias vi="nvim"
+alias v="nvim"
 function fp() {
    local file
 
