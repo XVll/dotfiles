@@ -47,19 +47,12 @@ end
 for key, pos in pairs(positions) do
     hyperKey.bindFn({}, key, function() swapWindows(pos) end)
 end
---for key, pos in pairs(positions) do
---    hyperKey.bindFn({}, key, function()
---        local f_w = window.focusedWindow()
---        grid.set(f_w, pos, f_w:screen())
---    end)
---end
+
 -- Spaces
 function moveWindowToSpace(space)
     local win = window.focusedWindow()
     local uuid = win:screen():getUUID()
     local spaceID = spaces.allSpaces()[uuid][space]
-    print(spaces.allSpaces())
-    print(spaceID)
     spaces.moveWindowToSpace(win, spaceID)
     spaces.gotoSpace(spaceID)
 end
@@ -76,11 +69,12 @@ hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 's', function() window.focusedWin
 hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'd', function() window.focusedWindow():focusWindowSouth() end)
 hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'e', function() window.focusedWindow():focusWindowNorth() end)
 hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'f', function() window.focusedWindow():focusWindowEast() end)
+
 -- Display
 hyperKey.bindFn({ "shift", "alt", "cmd", "ctrl" }, 'n', function() local win = window.focusedWindow() local next = win:screen():next() win:moveToScreen(next) end)
 hyperKey.bindFn({ "shift", "alt", "cmd", "ctrl" }, 'p', function() local win = window.focusedWindow() local prev = win:screen():previous() win:moveToScreen(prev) end)
 
--- Apps (Safari, Iterm, VSCode, Chrome, Music, Finder, Notion, Transmission, Rider, IINA)
+-- Apps
 appKey.bindApp({}, 'y', function() hs.execute('qlmanage -p ~/.assets/cheat_sheet.pdf') end)
 appKey.bindApp({}, 'c', 'Google Chrome')
 appKey.bindApp({}, 's', 'Safari')
