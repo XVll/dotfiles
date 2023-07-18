@@ -33,6 +33,7 @@ writeToProfile('Default', [
     rule('Hammer App Mode').manipulators([map('>⌥').to('f17')]),
     rule('Slash -> Hyper').manipulators([map('/').toHyper().toIfAlone('/'),]),
     rule('Tilde -> Hyper').manipulators([map('`', 'optionalAny').toHyper(),]),
+
     rule('Caps Lock -> Control + Escape').manipulators([map('⇪', '??').to('left_control').toIfAlone('⎋'),]),
     rule('Spotlight -> Raycast').manipulators([map('␣', '⌘').to('␣', '⌥')]),
     rule('Non us backslash -> Tilde').manipulators([map('non_us_backslash', 'optionalAny').to('`'),])

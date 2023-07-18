@@ -1,7 +1,6 @@
 {{- if eq .chezmoi.os "darwin" -}}
 
 #!/bin/bash
-
 pushd /Users/$USER/.config/karabiner/config-builder
 npm install
 npm run build

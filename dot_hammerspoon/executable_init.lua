@@ -71,8 +71,8 @@ hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'e', function() window.focusedWin
 hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'f', function() window.focusedWindow():focusWindowEast() end)
 
 -- Display
-hyperKey.bindFn({ "shift", "alt", "cmd", "ctrl" }, 'n', function() local win = window.focusedWindow() local next = win:screen():next() win:moveToScreen(next) end)
-hyperKey.bindFn({ "shift", "alt", "cmd", "ctrl" }, 'p', function() local win = window.focusedWindow() local prev = win:screen():previous() win:moveToScreen(prev) end)
+hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'i', function() local win = window.focusedWindow() local next = win:screen():next() win:moveToScreen(next) end)
+hotkey.bind({ "shift", "alt", "cmd", "ctrl" }, 'o', function() local win = window.focusedWindow() local prev = win:screen():previous() win:moveToScreen(prev) end)
 
 -- Apps
 appKey.bindApp({}, 'y', function() hs.execute('qlmanage -p ~/.assets/cheat_sheet.pdf') end)
