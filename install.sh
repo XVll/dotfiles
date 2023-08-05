@@ -15,7 +15,7 @@ then
     # Wait until the Command Line Tools are installed
     until xcode-select --print-path &> /dev/null; do
         echo "${YELLOW}Waiting for Command Line Tools installation to complete...${NC}"
-        sleep 5
+        sleep 10
     done
 
     echo "${GREEN}Command Line Tools installed successfully!${NC}"
