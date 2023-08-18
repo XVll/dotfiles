@@ -60,6 +60,7 @@ fi
 echo "${YELLOW}Ensure Full Disk Access is granted to Terminal, some preferences requires.${NC}"
 
 while ! op account get > /dev/null 2>&1; do
+    eval $(op signin my.1password.com)
     echo "${RED}Configure and sign in to your 1Password account in the desktop application then press any key to continue${NC}"
     read -n 1 -s -r
 done
