@@ -65,6 +65,9 @@ while ! op account get > /dev/null 2>&1; do
     read -n 1 -s -r
 done
 
+# Connect Server
+op read -o ~/.config/1password/credentials/1password-credentials.json op://Development/Credentials/1password-credentials.json
+
 echo "${BLUE}Starting chezmoi...${NC}"
 chezmoi init XVll --apply --ssh
 echo "${GREEN}Done!${NC}"
