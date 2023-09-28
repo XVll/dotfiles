@@ -2,7 +2,6 @@
 
 #!/bin/bash
 
-
 osascript -e 'tell application "System Preferences" to quit'
 
 # Keyboard
@@ -47,22 +46,7 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 defaults write com.apple.dock wvous-br-corner -int 4
 defaults write com.apple.dock wvous-br-modifier -int 0
 
-defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
-
-# Safari
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
-defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-defaults write com.apple.Safari AutoFillFromAddressBook -bool false
-defaults write com.apple.Safari AutoFillPasswords -bool false
-defaults write com.apple.Safari AutoFillCreditCardData -bool false
-defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
-
 # Finder
-
 chflags nohidden ~/Library
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 defaults write com.apple.finder _FXSortFoldersFirst -bool "true" 
@@ -81,18 +65,7 @@ defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 defaults write com.apple.finder QuitMenuItem -bool true
 
-# App Store
-defaults write com.apple.appstore WebKitDeveloperExtras -bool true
-defaults write com.apple.appstore ShowDebugMenu -bool true
-defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-defaults write com.apple.commerce AutoUpdate -bool true
-
-# Activity Monitor
-defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
-defaults write com.apple.ActivityMonitor SortDirection -int 0
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
 # ITerm2
 defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${HOME}/.assets"
