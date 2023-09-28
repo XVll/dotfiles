@@ -4,17 +4,15 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 
-# curl -fsSL https://raw.githubusercontent.com/XVll/dotfiles/main/install.sh | sh
+# sudo curl -fsSL https://raw.githubusercontent.com/XVll/dotfiles/main/install.sh | sh
 
 if ! xcode-select --print-path &> /dev/null
 then
     echo "${BLUE}Command Line Tools not found, installing now...${NC}"
-
     xcode-select --install
 
-    # Wait until the Command Line Tools are installed
+    echo "${YELLOW}Waiting for Command Line Tools installation to complete...${NC}"
     until xcode-select --print-path &> /dev/null; do
-        echo "${YELLOW}Waiting for Command Line Tools installation to complete...${NC}"
         sleep 10
     done
 
@@ -57,16 +55,21 @@ else
     echo "${GREEN}Chezmoi is already installed!${NC}"
 fi
 
-echo "${YELLOW}Ensure Full Disk Access is granted to Terminal, some preferences requires.${NC}"
-
 while ! op account get > /dev/null 2>&1; do
-    eval $(op signin my.1password.com)
     echo "${RED}Configure and sign in to your 1Password account in the desktop application then press any key to continue${NC}"
+    echo "${RED}1- Ensure Full Disk Access is granted to Terminal, some preferences requires.${NC}"
+    echo "${RED}2- Enable SSH${NC}"
+    echo "${RED}3- Enable CLI${NC}"
     read -n 1 -s -r
 done
 
-# Connect Server
+# Docker Connect Server
+mkdir ~/.config/1password/credentials
 op read -o ~/.config/1password/credentials/1password-credentials.json op://Development/Credentials/1password-credentials.json
+
+# SSH config for 1Password
+echo 'Host *' >> ~/.ssh/config
+echo '    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"' >> ~/.ssh/config
 
 echo "${BLUE}Starting chezmoi...${NC}"
 chezmoi init XVll --apply --ssh
