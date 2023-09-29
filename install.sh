@@ -63,9 +63,8 @@ while ! op account get > /dev/null 2>&1; do
     read -n 1 -s -r
 done
 
-# Docker Connect Server
-mkdir ~/.config/1password/credentials
-op read -o ~/.config/1password/credentials/1password-credentials.json op://Development/Credentials/1password-credentials.json
+mkdir -p ~/.config/1password/.op
+op read -o ~/.config/1password/.op/1password-credentials.json op://Development/Credentials/1password-credentials.json
 
 # SSH config for 1Password
 echo 'Host *' >> ~/.ssh/config
