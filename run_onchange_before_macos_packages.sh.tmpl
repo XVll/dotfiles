@@ -7,9 +7,7 @@ echo -e "Installing packages with homebrew"
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
 tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
 
-brew "exa"
 brew "bat"
 brew "git"
 brew "jq"
@@ -37,7 +35,6 @@ cask "font-meslo-lg-nerd-font"
 cask "dotnet-sdk"
 cask "visual-studio-code"
 cask "docker"
-cask "microsoft-office"
 cask "adguard"
 cask "transmission"
 cask "jetbrains-toolbox"
@@ -48,7 +45,6 @@ cask "1password"
 cask "iterm2"
 cask "karabiner-elements"
 cask "iina"
-cask "clickup"
 cask "burp-suite"
 EOF
 {{ end -}}
