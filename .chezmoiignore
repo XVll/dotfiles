@@ -1,11 +1,20 @@
+# Bootstrap scripts
+install-*.sh
+README.md
+LICENSE
 
-./idea
-./vscode
-.oh-my-zsh/cache/**
-.oh-my-zsh/custom/themes/powerlevel10k/**/*.zwc
-.hammerspoon/.vscode
-install.sh
-
+# macOS only
 {{ if ne .chezmoi.os "darwin" }}
-.DS_Store
+.hammerspoon/**
+.config/karabiner/**
+.Brewfile
+{{ end }}
+
+# Linux only
+{{ if ne .chezmoi.os "linux" }}
+{{ end }}
+
+# Windows only (native, not WSL)
+{{ if ne .chezmoi.os "windows" }}
+AppData/**
 {{ end }}

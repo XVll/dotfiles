@@ -1,10 +1,13 @@
-{{- $github_email := promptStringOnce . "github_email" "Github e-mail address" -}}
-{{- $github_name := promptStringOnce . "github_name" "Github name" -}}
-{{- $workspace := promptStringOnce . "workspace" "Work Space [personal_mac, office_mac, office_win, office_linux]" -}}
+{{- $name := promptStringOnce . "name" "Your full name" -}}
+{{- $email := promptStringOnce . "email" "Your email address" -}}
 
 [data]
-    github_email = {{ $github_email | quote }}
-    github_name = {{ $github_name | quote }}
-    workspace = {{ $workspace | quote }}
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+
 [edit]
-    command= "nvim"
+    command = "nvim"
+
+[git]
+    autoCommit = false
+    autoPush = false

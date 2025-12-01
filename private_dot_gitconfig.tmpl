@@ -1,18 +1,63 @@
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-[commit]
-	gpgsign = true
 [user]
-	signingkey = {{ onepasswordRead "op://Personal/Github_SignIn/public_key" }}
-	email = {{ .github_email }}
-	name = {{ .github_name }}
+    name = {{ .name }}
+    email = {{ .email }}
+
 [init]
-	defaultBranch = main
-[color]
-	ui = auto
+    defaultBranch = main
+
 [core]
-	editor = nvim
-	whitespace = trailing-space,space-before-tab
-	autocrlf = input
+    editor = nvim
+    autocrlf = input
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    dark = true
+    line-numbers = true
+    side-by-side = false
+
+[merge]
+    conflictstyle = zdiff3
+
+[diff]
+    colorMoved = default
+    algorithm = histogram
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = current
+
+[fetch]
+    prune = true
+
+[rebase]
+    autoStash = true
+
+[alias]
+    st = status -sb
+    co = checkout
+    br = branch
+    cm = commit
+    ca = commit --amend
+    lg = log --oneline --graph --decorate -20
+    lga = log --oneline --graph --decorate --all
+    unstage = reset HEAD --
+    last = log -1 HEAD --stat
+    undo = reset --soft HEAD~1
+
+[color]
+    ui = auto
+
+{{ if eq .chezmoi.os "darwin" -}}
+[credential]
+    helper = osxkeychain
+{{- else if eq .chezmoi.os "linux" -}}
+[credential]
+    helper = store
+{{- end }}

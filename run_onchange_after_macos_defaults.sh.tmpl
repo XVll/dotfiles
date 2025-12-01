@@ -67,10 +67,6 @@ defaults write com.apple.finder QuitMenuItem -bool true
 
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
-# ITerm2
-defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${HOME}/.assets"
-defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
-
 killall Finder
 killall Dock
 

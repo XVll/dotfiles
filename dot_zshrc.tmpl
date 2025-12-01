@@ -1,0 +1,107 @@
+# ===== Environment =====
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+{{ if eq .chezmoi.os "darwin" -}}
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- else if eq .chezmoi.os "linux" -}}
+# Homebrew on Linux (if installed)
+[ -d /home/linuxbrew/.linuxbrew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
+
+# ===== Zinit =====
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Plugins
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light jeffreytse/zsh-vi-mode
+
+# ===== History =====
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+# ===== Completion =====
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu select
+
+# ===== Key Bindings =====
+bindkey -v
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+# ===== Aliases =====
+alias ls="eza --icons"
+alias ll="eza -l -g --icons"
+alias la="eza -la -g --icons"
+alias lt="eza --tree --icons -a -I '.git'"
+alias vim="nvim"
+alias vi="nvim"
+alias v="nvim"
+alias lg="lazygit"
+alias c="clear"
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Git aliases
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git pull"
+alias gd="git diff"
+alias gco="git checkout"
+alias gb="git branch"
+alias glog="git log --oneline --graph --decorate"
+
+# ===== Functions =====
+# Fuzzy find and open in nvim
+function fv() {
+    local file
+    file=$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')
+    [ -n "$file" ] && nvim "$file"
+}
+
+# Create directory and cd into it
+function mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# ===== Tool Initialization =====
+# Starship prompt
+eval "$(starship init zsh)"
+
+# fzf
+{{ if eq .chezmoi.os "darwin" -}}
+source <(fzf --zsh)
+{{- else -}}
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || eval "$(fzf --zsh 2>/dev/null)"
+{{- end }}
+
+# zoxide (better cd)
+command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
+
+# ===== 1Password SSH Agent =====
+{{ if eq .chezmoi.os "darwin" -}}
+export SSH_AUTH_SOCK=~/"Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{- else if eq .chezmoi.os "linux" -}}
+# WSL: Use Windows 1Password SSH agent via npiperelay, or native Linux socket
+if [ -n "$WSL_DISTRO_NAME" ]; then
+    # WSL detected - check for npiperelay setup
+    export SSH_AUTH_SOCK=~/.1password/agent.sock
+else
+    # Native Linux
+    [ -S ~/.1password/agent.sock ] && export SSH_AUTH_SOCK=~/.1password/agent.sock
+fi
+{{- end }}
