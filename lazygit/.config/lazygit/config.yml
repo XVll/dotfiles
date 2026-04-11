@@ -1,0 +1,6 @@
+# lazygit config — TODO
+# gui:
+#   theme:
+#     activeBorderColor: ['#7aa2f7', 'bold']
+#     inactiveBorderColor: ['#565f89']
+#     selectedLineBgColor: ['#1f2335']

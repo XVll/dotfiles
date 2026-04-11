@@ -174,13 +174,42 @@ install_packages() {
     zsh-autosuggestions \
     zsh-syntax-highlighting
 
+  # Editor
+  # neovim = vim-based editor, ripgrep + fd needed by telescope/fzf plugins
+  # NOTE: we use LazyVim as the neovim config framework
+  paru -S --needed --noconfirm \
+    neovim \
+    ripgrep \
+    fd \
+    nodejs \
+    npm
+
+  # Git tooling
+  # lazygit = terminal UI for git, delta = better git diffs with syntax highlighting
+  paru -S --needed --noconfirm \
+    lazygit \
+    git-delta
+
+  # Terminal multiplexer
+  # tmux = multiple panes/windows in one terminal session
+  paru -S --needed --noconfirm \
+    tmux
+
+  # System info / monitoring
+  # btop = beautiful system monitor (replaces htop)
+  # fastfetch = system info shown on terminal login (replaces neofetch)
+  paru -S --needed --noconfirm \
+    btop \
+    fastfetch
+
   # Stow (symlink manager)
   paru -S --needed --noconfirm \
     stow
 
-  # Misc system
+  # Misc
   paru -S --needed --noconfirm \
-    swaybg
+    swaybg \
+    kitty    # ARM fallback terminal; on CachyOS: ghostty-nightly-bin
 
   ok "Core packages installed"
 }

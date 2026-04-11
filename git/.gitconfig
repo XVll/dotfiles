@@ -1,0 +1,26 @@
+# gitconfig — TODO
+[user]
+	name = xvll
+	email = # TODO: add email
+
+[core]
+	editor = nvim
+	pager = delta
+
+[delta]
+	navigate = true
+	side-by-side = true
+	# Tokyo Night theme — TODO
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
+
+[pull]
+	rebase = true
+
+[alias]
+	lg = log --oneline --graph --decorate
+	st = status -s

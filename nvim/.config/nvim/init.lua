@@ -1,0 +1,2 @@
+-- neovim config — TODO: LazyVim bootstrap
+-- https://lazyvim.org

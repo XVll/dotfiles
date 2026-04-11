@@ -7,14 +7,44 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="$HOME"
 
-# All packages (each is a directory in this repo)
 PACKAGES=(
+  # Shell
   zsh
+  starship
+
+  # Editor
   nvim
+
+  # Window manager & Wayland
   hypr
+  hyprlock
+  hypridle
+  hyprpaper
+
+  # Status bar
   waybar
+
+  # Launchers (wofi = ARM, walker = CachyOS)
   wofi
-  wezterm
+  walker
+
+  # Terminal
+  ghostty
+  kitty
+
+  # Notifications
+  mako
+
+  # Git
+  git
+  lazygit
+
+  # Multiplexer
+  tmux
+
+  # System info
+  btop
+  fastfetch
 )
 
 stow_package() {
