@@ -104,8 +104,60 @@ install_packages() {
 
   # App launcher
   # walker = modern Wayland launcher, what omarchy uses
+  # NOTE: on ARM use walker-bin (pre-built); on CachyOS walker-bin also works
   paru -S --needed --noconfirm \
-    walker
+    walker-bin
+
+  # Hyprland ecosystem
+  # hypridle = watches inactivity and triggers lock, hyprlock = the lock screen
+  # hyprpaper = wallpaper daemon, hyprpicker = color picker
+  # NOTE: omarchy uses all four
+  paru -S --needed --noconfirm \
+    hypridle \
+    hyprlock \
+    hyprpaper \
+    hyprpicker
+
+  # Notifications
+  # mako = lightweight Wayland notification daemon (replaces dunst)
+  # NOTE: omarchy uses mako too
+  paru -S --needed --noconfirm \
+    mako
+
+  # Audio — pipewire replaces PulseAudio entirely
+  # pipewire-pulse = drop-in PulseAudio replacement so apps don't notice the switch
+  # wireplumber = session manager, routes audio between apps and hardware
+  # NOTE: omarchy uses identical stack
+  paru -S --needed --noconfirm \
+    pipewire \
+    pipewire-pulse \
+    pipewire-alsa \
+    wireplumber
+
+  # Fonts
+  # ttf-jetbrains-mono-nerd = primary font with ligatures + icons
+  # noto = broad unicode + emoji coverage
+  paru -S --needed --noconfirm \
+    ttf-jetbrains-mono-nerd \
+    noto-fonts \
+    noto-fonts-emoji
+
+  # Utilities
+  # polkit-gnome = GUI auth popups for sudo requests
+  # grim + slurp = Wayland screenshot (grim captures, slurp selects region)
+  # wl-clipboard = copy/paste on Wayland (replaces xclip/xsel)
+  # brightnessctl = screen brightness via keybinds
+  # playerctl = media play/pause/next via keybinds
+  # networkmanager + applet = wifi/ethernet management + tray icon
+  paru -S --needed --noconfirm \
+    polkit-gnome \
+    grim \
+    slurp \
+    wl-clipboard \
+    brightnessctl \
+    playerctl \
+    networkmanager \
+    network-manager-applet
 
   ok "Core packages installed"
 }
