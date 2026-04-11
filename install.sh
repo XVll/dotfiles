@@ -73,69 +73,39 @@ install_paru() {
 install_packages() {
   info "Installing core packages"
 
-  # Window manager & Wayland session
-  # uwsm = Universal Wayland Session Manager, handles proper env var setup
-  # NOTE: omarchy uses same stack (hyprland + uwsm + sddm)
+  # Wayland session
+  # hyprland = tiling WM, uwsm = proper Wayland env setup, sddm = login screen
+  # portals = allow apps to do screenshare/file picking through the compositor
+  # NOTE: omarchy uses identical stack
   paru -S --needed --noconfirm \
     hyprland \
     uwsm \
+    sddm \
     xdg-desktop-portal-hyprland \
-    xdg-desktop-portal-gtk \
-    sddm
+    xdg-desktop-portal-gtk
 
-  # Status bar & launcher
-  # NOTE: omarchy uses walker as launcher; we use wofi (simpler, no extra deps)
+  # Terminal
+  # ghostty-git = builds from source, works on aarch64
+  # NOTE: on CachyOS use ghostty-nightly-bin (pre-built, no compilation)
+  # NOTE: omarchy ships ghostty/kitty/alacritty, all three
   paru -S --needed --noconfirm \
-    waybar \
-    wofi
+    ghostty-git
 
-  # Terminal & shell
-  # ghostty is AUR on ARM and may fail to build — using kitty (in official repos)
-  # On CachyOS: swap kitty for ghostty
+  # Shell
+  # zsh = better completion, faster, what our dotfiles target
   paru -S --needed --noconfirm \
-    kitty \
     zsh
 
-  # Hyprland ecosystem
-  # hypridle = locks screen after inactivity, hyprlock = the lock screen itself
+  # Status bar
+  # waybar = most popular Hyprland bar, highly configurable
+  # NOTE: omarchy uses waybar too
   paru -S --needed --noconfirm \
-    hypridle \
-    hyprlock \
-    hyprpaper \
-    hyprpicker
+    waybar
 
-  # Notifications
+  # App launcher
+  # walker = modern Wayland launcher, what omarchy uses
   paru -S --needed --noconfirm \
-    mako
-
-  # Audio — pipewire replaces PulseAudio entirely
-  # wireplumber is the session manager that routes audio between apps and hardware
-  # NOTE: omarchy uses identical stack
-  paru -S --needed --noconfirm \
-    pipewire \
-    pipewire-pulse \
-    pipewire-alsa \
-    wireplumber
-
-  # Fonts
-  paru -S --needed --noconfirm \
-    ttf-jetbrains-mono-nerd \
-    noto-fonts \
-    noto-fonts-emoji
-
-  # Utilities
-  # polkit-gnome = GUI auth popups (e.g. sudo password prompts in GUI)
-  # grim + slurp = Wayland screenshot tools
-  # wl-clipboard = copy/paste for Wayland (replaces xclip/xsel)
-  paru -S --needed --noconfirm \
-    polkit-gnome \
-    grim \
-    slurp \
-    wl-clipboard \
-    brightnessctl \
-    playerctl \
-    networkmanager \
-    network-manager-applet
+    walker
 
   ok "Core packages installed"
 }
