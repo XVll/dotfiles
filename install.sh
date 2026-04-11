@@ -104,7 +104,8 @@ install_packages() {
 
   # App launcher
   # walker = modern Wayland launcher, what omarchy uses
-  # NOTE: on ARM use walker-bin (pre-built); on CachyOS walker-bin also works
+  # NOTE: on CachyOS use walker-bin (pre-built binary available)
+  # NOTE: on ARM walker-bin is x86_64 only — build walker from AUR instead
   paru -S --needed --noconfirm \
     walker-bin
 
@@ -159,7 +160,37 @@ install_packages() {
     networkmanager \
     network-manager-applet
 
+  # Shell tooling
+  # starship = fast prompt with git/language info
+  # eza = modern ls with icons, bat = cat with syntax highlighting
+  # zoxide = smart cd (z dotfiles jumps anywhere), fzf = fuzzy finder (Ctrl+R history)
+  # zsh-autosuggestions = grey text suggestions, zsh-syntax-highlighting = colors as you type
+  paru -S --needed --noconfirm \
+    starship \
+    eza \
+    bat \
+    zoxide \
+    fzf \
+    zsh-autosuggestions \
+    zsh-syntax-highlighting
+
+  # Stow (symlink manager)
+  paru -S --needed --noconfirm \
+    stow
+
+  # Misc system
+  paru -S --needed --noconfirm \
+    swaybg
+
   ok "Core packages installed"
+}
+
+# ── 6. Link dotfiles with stow ─────────────────────────────────────────────────
+link_dotfiles() {
+  info "Linking dotfiles"
+  cd "$(dirname "$0")"
+  bash stow.sh
+  ok "Dotfiles linked"
 }
 
 # ── Main ───────────────────────────────────────────────────────────────────────
@@ -167,10 +198,14 @@ case "${1:-}" in
   system)    system_basics; user_setup; base_packages ;;
   paru)      install_paru ;;
   packages)  install_packages ;;
+  stow)      link_dotfiles ;;
+  all)       install_packages; link_dotfiles ;;
   *)
     echo "Usage: $0 <step>"
     echo "  system    — run as root: timezone, user, base packages"
     echo "  paru      — run as fx: install paru from AUR"
     echo "  packages  — run as fx: install all core packages"
+    echo "  stow      — run as fx: link dotfiles into HOME"
+    echo "  all       — packages + stow"
     ;;
 esac
