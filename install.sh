@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
-# install.sh — run as your user (with sudo) after OS installation
+# install.sh — run as your user (with sudo) on a fresh CachyOS install
 #
-# On a completely fresh Arch install (no user yet):
-#   sudo bash install/preflight/user.sh   ← one-time, then re-login as fx
-#
-# On CachyOS (the real target), the installer already created your user.
-# Just run:
-#   bash install.sh
+# Usage: bash install.sh
 
 set -euo pipefail
 

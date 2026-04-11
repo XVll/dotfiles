@@ -7,19 +7,16 @@ abort() {
   exit 1
 }
 
-# Must be running as regular user (not root)
+# Must run as regular user, not root
 (( EUID != 0 )) || abort "run as your user, not root"
 
 # Must be on CachyOS
-# (On Arch ARM dev VM this file won't exist — that's expected)
-if [[ ! -f /etc/cachyos-release ]] && [[ ! -f /etc/arch-release ]]; then
-  abort "Arch-based distro"
-fi
+[[ -f /etc/cachyos-release ]] || abort "CachyOS"
 
 # Must have Limine bootloader (CachyOS default)
-command -v limine &>/dev/null || abort "Limine bootloader (is this CachyOS?)"
+command -v limine &>/dev/null || abort "Limine bootloader"
 
 # Must have btrfs root filesystem (CachyOS default)
-[[ "$(findmnt -n -o FSTYPE /)" == "btrfs" ]] || abort "btrfs root filesystem (is this CachyOS?)"
+[[ "$(findmnt -n -o FSTYPE /)" == "btrfs" ]] || abort "btrfs root filesystem"
 
 ok "Guards passed"

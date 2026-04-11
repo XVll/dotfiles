@@ -24,13 +24,11 @@ PACKAGES=(
   # Status bar
   waybar
 
-  # Launchers (wofi = ARM, walker = CachyOS)
-  wofi
+  # Launcher
   walker
 
   # Terminal
   ghostty
-  kitty
 
   # Notifications
   mako
