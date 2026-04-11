@@ -4,10 +4,7 @@ need_user
 
 info "Enabling services"
 
-# sddm = display/login manager (system service — starts on boot, shows login screen)
-sudo systemctl enable sddm
-
-# NetworkManager = wifi/ethernet (system service — manages all network connections)
+# NetworkManager = wifi/ethernet (system service)
 sudo systemctl enable NetworkManager
 
 # pipewire audio stack (user services — start automatically on login)

@@ -2,11 +2,11 @@
 source "$(dirname "${BASH_SOURCE[0]}")/../helpers.sh"
 need_root
 
-info "Base packages"
+info "Installing base build tools"
 
-# Minimum needed to bootstrap paru and clone the dotfiles repo
+# Minimum to bootstrap paru and build AUR packages
 pacman -S --needed --noconfirm \
   base-devel \
   git
 
-ok "Base packages done"
+ok "Base build tools installed"
