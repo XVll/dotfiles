@@ -13,10 +13,6 @@ info "Syncing and upgrading system"
 sudo pacman -Syyuu --noconfirm
 ok "System up to date"
 
-info "Installing base build tools"
-sudo pacman -S --needed --noconfirm base-devel git
-ok "base-devel installed"
-
-info "Installing paru"
-sudo pacman -S --needed --noconfirm paru
-ok "paru installed"
+info "Installing base tools"
+sudo pacman -S --needed --noconfirm base-devel git paru
+ok "Done"
