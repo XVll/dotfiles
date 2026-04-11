@@ -1,19 +1,33 @@
 #!/usr/bin/env bash
 source "$(dirname "${BASH_SOURCE[0]}")/../helpers.sh"
-need_user
 
-info "Cleaning up"
+info "Re-enabling mkinitcpio hooks"
 
-# Remove orphaned packages (installed as dependencies, no longer needed)
+# Restore the hooks we disabled in preflight and rebuild initramfs once
+if [[ -f /usr/share/libalpm/hooks/90-mkinitcpio-install.hook.disabled ]]; then
+  sudo mv /usr/share/libalpm/hooks/90-mkinitcpio-install.hook.disabled \
+          /usr/share/libalpm/hooks/90-mkinitcpio-install.hook
+fi
+
+if [[ -f /usr/share/libalpm/hooks/60-mkinitcpio-remove.hook.disabled ]]; then
+  sudo mv /usr/share/libalpm/hooks/60-mkinitcpio-remove.hook.disabled \
+          /usr/share/libalpm/hooks/60-mkinitcpio-remove.hook
+fi
+
+# Rebuild initramfs once for all installed kernels
+sudo mkinitcpio -P
+
+ok "mkinitcpio hooks restored and initramfs rebuilt"
+
+info "Removing orphaned packages"
+
 ORPHANS=$(paru -Qdtq 2>/dev/null || true)
 if [ -n "$ORPHANS" ]; then
   echo "$ORPHANS" | paru -Rns --noconfirm -
   ok "Orphans removed"
 else
-  ok "No orphans to remove"
+  ok "No orphans"
 fi
 
-# Clear paru cache
 paru -Scc --noconfirm 2>/dev/null || true
-
-ok "Cleanup done"
+ok "Package cache cleared"

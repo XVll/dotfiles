@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
 source "$(dirname "${BASH_SOURCE[0]}")/../helpers.sh"
-need_root
 
 info "Configuring pacman"
 
-# Arch ARM (aarch64) — Parallels kernel lacks Landlock, pacman sandbox fails
-# NOTE: Remove DisableSandbox on CachyOS (x86_64 kernel has full Landlock support)
-if ! grep -q "DisableSandbox" /etc/pacman.conf; then
-  sed -i '/^\[options\]/a DisableSandbox' /etc/pacman.conf
-fi
+# Enable parallel downloads and color output (commented out by default in Arch)
+sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 
-# Enable parallel downloads and color output
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-sed -i 's/^#Color/Color/' /etc/pacman.conf
+# Sync package databases and upgrade everything before we start installing
+# Prevents conflicts between old package versions and new ones we're about to install
+sudo pacman -Syyuu --noconfirm
 
 timedatectl set-ntp true
-timedatectl set-timezone Europe/Istanbul
+sudo timedatectl set-timezone Europe/Istanbul
 
-ok "Pacman configured"
+ok "Pacman configured and system up to date"
