@@ -8,6 +8,9 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="$HOME"
 
 PACKAGES=(
+  # Scripts (theme-set, theme-list, theme-current → ~/.local/bin/)
+  bin
+
   # Shell
   zsh
   starship
@@ -43,6 +46,20 @@ PACKAGES=(
   # System info
   btop
   fastfetch
+
+  # Utilities
+  imv
+  wiremix
+  wofi
+
+  # Session / system
+  uwsm
+  xdg
+  fontconfig
+  swayosd
+
+  # App launcher overrides (hide/fix .desktop entries)
+  applications
 )
 
 stow_package() {

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# theme-list — List available themes, marking the current one.
+
+SCRIPT_REAL="$(readlink -f "$0")"
+DOTFILES_DIR="$(realpath "$(dirname "$SCRIPT_REAL")/../../..")"
+THEMES_DIR="$DOTFILES_DIR/themes"
+CURRENT_FILE="$HOME/.config/theme/current.name"
+
+current=""
+[[ -f "$CURRENT_FILE" ]] && current=$(cat "$CURRENT_FILE")
+
+for theme_dir in "$THEMES_DIR"/*/; do
+  name=$(basename "$theme_dir")
+  if [[ "$name" == "$current" ]]; then
+    echo "* $name"
+  else
+    echo "  $name"
+  fi
+done

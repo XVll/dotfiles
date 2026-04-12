@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# theme-current — Print the name of the currently applied theme.
+
+CURRENT_FILE="$HOME/.config/theme/current.name"
+
+if [[ -f "$CURRENT_FILE" ]]; then
+  cat "$CURRENT_FILE"
+else
+  echo "(no theme applied — run 'theme-set <name>')"
+fi

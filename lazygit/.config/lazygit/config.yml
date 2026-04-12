@@ -1,6 +1,45 @@
-# lazygit config — TODO
-# gui:
-#   theme:
-#     activeBorderColor: ['#7aa2f7', 'bold']
-#     inactiveBorderColor: ['#565f89']
-#     selectedLineBgColor: ['#1f2335']
+# lazygit config
+# Theme colors are merged via LG_CONFIG_FILE env var (set in .zshrc):
+#   LG_CONFIG_FILE=~/.config/lazygit/config.yml:~/.config/theme/current/lazygit.yml
+
+gui:
+  scrollHeight: 5
+  scrollPastBottom: true
+  mouseEvents: true
+  skipDiscardChangeWarning: false
+  skipStashWarning: false
+  showFileTree: true
+  showListFooter: true
+  showRandomTip: false
+  nerdFontsVersion: "3"
+  commitLength:
+    show: true
+  showBranchCommitHash: true
+  timeFormat: "2006-01-02"
+  shortTimeFormat: "15:04"
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+  commit:
+    signOff: false
+  merging:
+    manualCommit: false
+    args: ""
+  skipHookPrefix: WIP
+  autoFetch: true
+  autoRefresh: true
+  fetchAll: true
+  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
+
+os:
+  editPreset: nvim
+
+keybinding:
+  universal:
+    quit: q
+    return: <esc>
+    togglePanel: <tab>
+    prevItem: <up>
+    nextItem: <down>

@@ -1,2 +1,2 @@
--- neovim config — TODO: LazyVim bootstrap
--- https://lazyvim.org
+-- neovim config (LazyVim)
+-- https://www.lazyvim.org/installation
