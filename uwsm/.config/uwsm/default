@@ -1,1 +1,5 @@
-# uwsm/default — sourced by env, set session-level defaults here
+# uwsm/default — user-facing session defaults
+# Sourced by uwsm/env. Changes require a session restart.
+
+export TERMINAL=ghostty
+export EDITOR=nvim

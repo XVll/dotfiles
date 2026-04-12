@@ -1,2 +1,4 @@
-# xdg-terminal-exec preference order — first found wins
+# xdg-terminal-exec preference order — first found and valid wins
 # https://gitlab.freedesktop.org/terminal-wg/specifications
+Ghostty.desktop
+kitty.desktop

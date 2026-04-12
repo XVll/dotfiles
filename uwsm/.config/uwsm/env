@@ -1,2 +1,12 @@
-# uwsm/env — session environment variables (exported into Wayland session)
+# uwsm/env — session environment variables
+# Sourced by uwsm on session start. Changes require a session restart.
 # https://github.com/Vladimir-csp/uwsm
+
+# Ensure ~/.local/bin is in PATH (npx wrappers, user scripts)
+export PATH="$HOME/.local/bin:$PATH"
+
+# Session defaults (terminal, editor)
+source ~/.config/uwsm/default
+
+# Activate mise shims if installed (manages node, python, etc.)
+command -v mise &>/dev/null && eval "$(mise activate bash --shims)"
