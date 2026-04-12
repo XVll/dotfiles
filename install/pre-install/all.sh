@@ -25,8 +25,8 @@ abort() {
 # running the whole script as root breaks user-level operations ($HOME, etc.)
 (( EUID != 0 )) || abort "run as your user, not root"
 
-# Must be on CachyOS — we rely on CachyOS repos, paru, and CachyOS defaults
-grep -q 'ID=cachyos' /etc/os-release 2>/dev/null || abort "CachyOS"
+# Must be Arch-based — we rely on pacman, paru, and Arch repos
+[[ -f /etc/arch-release ]] || abort "Arch-based Linux"
 
 # Must have Limine bootloader (CachyOS default since ~2024)
 command -v limine &>/dev/null || abort "Limine bootloader"
