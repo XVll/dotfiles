@@ -16,6 +16,7 @@ source "$DOTFILES_DIR/install/pre-install.sh"
 # source "$DOTFILES_DIR/install/steps/system.sh"       # sysctl, systemd, security config
 source "$DOTFILES_DIR/install/steps/fonts.sh"   # fonts before anything renders
 source "$DOTFILES_DIR/install/steps/wayland.sh" # Hyprland + GPU drivers
+# source "$DOTFILES_DIR/install/steps/hardware.sh"     # GPU drivers + NVIDIA config (after wayland)
 # source "$DOTFILES_DIR/install/steps/login.sh"        # SDDM autologin + keyring
 # source "$DOTFILES_DIR/install/steps/audio.sh"        # PipeWire — core desktop sound
 # source "$DOTFILES_DIR/install/steps/terminal.sh"     # Ghostty

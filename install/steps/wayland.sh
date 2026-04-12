@@ -39,29 +39,5 @@ paru -S --needed --noconfirm \
   hyprland-guiutils
 ok "Wayland session installed"
 
-# GPU drivers — auto-detected from lspci output
-# vulkan-intel / vulkan-radeon = Vulkan ICD driver — required for GPU-accelerated compositing
-# intel-media-driver = Intel VA-API (HD/UHD/Xe/Iris/Arc) — hardware video decode/encode
-# libva-intel-driver = legacy Intel VA-API (GMA series) — older codec support
-info "GPU drivers"
-declare -A VULKAN_DRIVERS=([Intel]=vulkan-intel [AMD]=vulkan-radeon)
-VULKAN_PKGS=()
-for vendor in "${!VULKAN_DRIVERS[@]}"; do
-  if lspci | grep -iE "(VGA|Display).*$vendor" >/dev/null 2>&1; then
-    VULKAN_PKGS+=("${VULKAN_DRIVERS[$vendor]}")
-  fi
-done
-(( ${#VULKAN_PKGS[@]} > 0 )) && paru -S --needed --noconfirm "${VULKAN_PKGS[@]}"
-
-INTEL_GPU=$(lspci | grep -iE 'vga|3d|display' | grep -i 'intel' || true)
-if [[ -n $INTEL_GPU ]]; then
-  if [[ ${INTEL_GPU,,} =~ (hd[[:space:]]graphics|uhd[[:space:]]graphics|xe|iris|arc) ]]; then
-    paru -S --needed --noconfirm intel-media-driver libva-intel-driver
-  elif [[ ${INTEL_GPU,,} =~ gma ]]; then
-    paru -S --needed --noconfirm libva-intel-driver
-  fi
-fi
-ok "GPU drivers installed"
-
 # ── Stow ──────────────────────────────────────────────────────────────────────
 bash "$DOTFILES_DIR/stow.sh" hypr uwsm xdg
