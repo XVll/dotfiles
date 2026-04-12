@@ -12,8 +12,7 @@ need_user
 #         replaces manual exec-once env hacks in hyprland.conf
 # sddm = display manager — handles login screen and session launch
 # xdg-desktop-portal-hyprland = screensharing + file picker via Hyprland protocols
-# xdg-desktop-portal-gtk = fallback portal for GTK apps that don't use Hyprland portal
-# hyprland-preview-share-picker = screen share window picker UI
+# xdg-desktop-portal-gtk = fallback portal for GTK apps (file open/save dialogs)
 # egl-wayland = EGL Wayland platform — lets OpenGL apps render natively (not via XWayland)
 # gtk4-layer-shell = GTK4 wlr-layer-shell — needed by GTK4 surface apps (waybar, etc.)
 # qt5-wayland + qt6-wayland = Qt native Wayland rendering instead of going through XWayland
@@ -28,7 +27,6 @@ paru -S --needed --noconfirm \
   sddm \
   xdg-desktop-portal-hyprland \
   xdg-desktop-portal-gtk \
-  hyprland-preview-share-picker \
   egl-wayland \
   gtk4-layer-shell \
   qt5-wayland \
