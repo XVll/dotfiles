@@ -14,7 +14,7 @@ source "$DOTFILES_DIR/install/pre-install.sh"
 
 # ── Steps — uncomment one at a time ──────────────────────────────────────────
 # source "$DOTFILES_DIR/install/steps/system.sh"       # sysctl, systemd, security config
-# source "$DOTFILES_DIR/install/steps/fonts.sh"        # fonts before anything renders
+source "$DOTFILES_DIR/install/steps/fonts.sh" # fonts before anything renders
 # source "$DOTFILES_DIR/install/steps/wayland.sh"      # Hyprland + SDDM + GPU drivers
 # source "$DOTFILES_DIR/install/steps/audio.sh"        # PipeWire — core desktop sound
 # source "$DOTFILES_DIR/install/steps/terminal.sh"     # Ghostty
