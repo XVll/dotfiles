@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# stow.sh — symlink all packages into $HOME
-# Usage: ./stow.sh [package]   (no args = stow everything)
+# stow.sh — symlink dotfile packages into $HOME
+# Usage: ./stow.sh [pkg...]   (no args = stow everything)
 
 set -e
 
@@ -8,57 +8,19 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="$HOME"
 
 PACKAGES=(
-  # Scripts (theme-set, theme-list, theme-current → ~/.local/bin/)
   bin
-
-  # Shell
-  zsh
-  starship
-
-  # Editor
+  zsh starship
   nvim
-
-  # Window manager & Wayland
-  hypr
-  hyprlock
-  hypridle
-  hyprpaper
-
-  # Status bar
+  hypr hyprlock hypridle hyprpaper uwsm xdg
   waybar
-
-  # Launcher
   walker
-
-  # Terminal
   ghostty
-
-  # Notifications
   mako
-
-  # Git
-  git
-  lazygit
-
-  # Multiplexer
+  git lazygit
   tmux
-
-  # System info
-  btop
-  fastfetch
-
-  # Utilities
-  imv
-  wiremix
-  wofi
-
-  # Session / system
-  uwsm
-  xdg
-  fontconfig
-  swayosd
-
-  # App launcher overrides (hide/fix .desktop entries)
+  btop fastfetch
+  imv wiremix wofi
+  fontconfig swayosd
   applications
 )
 
@@ -66,14 +28,16 @@ stow_package() {
   local pkg="$1"
   if [ -d "$DOTFILES_DIR/$pkg" ]; then
     echo "  stowing $pkg..."
-    stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" "$pkg"
+    stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" -R "$pkg"
   else
     echo "  skipping $pkg (not found)"
   fi
 }
 
-if [ -n "$1" ]; then
-  stow_package "$1"
+if [ "$#" -gt 0 ]; then
+  for pkg in "$@"; do
+    stow_package "$pkg"
+  done
 else
   echo "Stowing all packages..."
   for pkg in "${PACKAGES[@]}"; do

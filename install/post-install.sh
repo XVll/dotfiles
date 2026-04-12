@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# post-install/all.sh — Final setup, cleanup, and reboot
+# post-install.sh — Final setup, cleanup, and reboot
 #
 # Runs last. Every script from omarchy's install/post-install/all.sh is
 # represented here in order — kept ones are inlined, skipped ones are
@@ -9,7 +9,7 @@
 # handles elsewhere or differently.
 
 set -euo pipefail
-source "$(dirname "${BASH_SOURCE[0]}")/../helpers.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/helpers.sh"
 need_user
 
 # ─────────────────────────────────────────────────────────────────────────────

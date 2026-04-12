@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# pre-install/all.sh — Guards and system preparation
+# pre-install.sh — Guards and system preparation
 #
 # Runs first, before any packages are installed. Verifies the environment
 # is what we expect, configures pacman, syncs the system, and installs the
 # minimum tools needed for the rest of the install to work.
 
 set -euo pipefail
-source "$(dirname "${BASH_SOURCE[0]}")/../helpers.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/helpers.sh"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GUARD — Verify prerequisites before doing anything destructive
@@ -68,5 +68,5 @@ sudo pacman -Syyuu --noconfirm
 ok "System up to date"
 
 info "Installing base tools"
-sudo pacman -S --needed --noconfirm base-devel git paru
-ok "base-devel, git, paru installed"
+sudo pacman -S --needed --noconfirm base-devel git stow paru
+ok "base-devel, git, stow, paru installed"
