@@ -1,1 +1,121 @@
-# git config — https://git-scm.com/docs/git-config
+# git config — based on github.com/folke/dot
+# user.name and user.email are set by install/steps/git.sh
+
+[filter "lfs"]
+	clean    = git-lfs clean -- %f
+	smudge   = git-lfs smudge -- %f
+	process  = git-lfs filter-process
+	required = true
+
+[color]
+	ui = auto
+
+[alias]
+	st       = status -sb
+	co       = checkout
+	sw       = switch
+	br       = branch
+	c        = commit --short
+	ci       = commit --short
+	p        = push
+	pf       = push --force-with-lease
+	l        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
+	ll       = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+	uncommit = reset --soft HEAD^
+	unstage  = reset HEAD --
+	amend    = commit --amend --no-edit
+	fixup    = commit --fixup
+
+[core]
+	pager      = delta
+	editor     = nvim
+	autocrlf   = input
+	whitespace = trailing-space,space-before-tab
+
+[interactive]
+	diffFilter = delta --color-only
+
+# TODO: uncomment when theme system is wired up
+# [include]
+# 	path = ~/.config/theme/current/delta.gitconfig
+[delta]
+	navigate     = true
+	light        = false
+	side-by-side = false
+	line-numbers = true
+	syntax-theme = base16
+	features     = decorations
+
+[delta "decorations"]
+	commit-decoration-style = bold yellow box ul
+	file-style               = bold yellow ul
+	file-decoration-style    = none
+
+[merge]
+	conflictstyle = zdiff3
+	tool          = nvimdiff
+
+[diff]
+	algorithm  = histogram
+	colorMoved = default
+	tool       = nvim_difftool
+	submodule  = log
+
+[difftool "nvim_difftool"]
+	cmd = nvim -c "packadd nvim.difftool" -c "DiffTool $LOCAL $REMOTE"
+
+[difftool]
+	prompt = false
+
+[mergetool]
+	prompt     = false
+	keepBackup = false
+
+[pull]
+	rebase = true
+
+[push]
+	default         = current
+	autoSetupRemote = true
+
+[fetch]
+	prune    = true
+	pruneTag = true
+
+[rebase]
+	autoStash  = true
+	autoSquash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+
+[init]
+	defaultBranch = main
+
+[commit]
+	gpgsign = true
+	verbose = true
+
+[tag]
+	gpgsign = true
+
+[credential]
+	helper = cache --timeout=3600
+
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
+[help]
+	autocorrect = prompt
+
+[log]
+	date = auto:human

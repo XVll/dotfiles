@@ -10,11 +10,14 @@ need_user
 # lazygit = TUI git client — stage hunks, resolve conflicts, browse log visually
 # git-delta = diff pager — syntax-highlighted, side-by-side diffs (set as pager in .gitconfig)
 # github-cli = gh CLI — auth, PR review, issue management without leaving the terminal
+# neovim-remote = nvr — opens files in existing Neovim session (used by lazygit editPreset)
 info "Git tools"
 paru -S --needed --noconfirm \
   lazygit \
   git-delta \
-  github-cli
+  git-lfs \
+  github-cli \
+  neovim-remote
 ok "Git tools installed"
 
 # ── Stow ──────────────────────────────────────────────────────────────────────
@@ -31,14 +34,3 @@ if [ -z "$GIT_EMAIL" ]; then read -rp "  Git email: " GIT_EMAIL; fi
 [ -n "$GIT_NAME" ]  && git config --global user.name  "$GIT_NAME"
 [ -n "$GIT_EMAIL" ] && git config --global user.email "$GIT_EMAIL"
 ok "Git identity set"
-
-# XCompose — CapsLock compose key shortcuts for name and email
-# space+n → your name, space+e → your email (compose key set in hypr/input.conf)
-if [ -n "${GIT_NAME:-}" ] && [ -n "${GIT_EMAIL:-}" ]; then
-  tee "$HOME/.XCompose" >/dev/null <<EOF
-# Compose key: CapsLock (see hypr/input.conf)
-<Multi_key> <space> <n> : "$GIT_NAME"
-<Multi_key> <space> <e> : "$GIT_EMAIL"
-EOF
-  ok "XCompose written"
-fi

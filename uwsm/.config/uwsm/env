@@ -5,8 +5,8 @@
 # Ensure ~/.local/bin is in PATH (npx wrappers, user scripts)
 export PATH="$HOME/.local/bin:$PATH"
 
-# Session defaults (terminal, editor)
-source ~/.config/uwsm/default
+export TERMINAL=ghostty
+export EDITOR=nvim
 
 # Activate mise shims if installed (manages node, python, etc.)
 command -v mise &>/dev/null && eval "$(mise activate bash --shims)"

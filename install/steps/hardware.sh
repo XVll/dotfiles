@@ -38,7 +38,4 @@ if [[ -n $INTEL_GPU ]]; then
   fi
 fi
 
-# ── hardware.conf ─────────────────────────────────────────────────────────────
-# Create empty hardware.conf so hyprland.conf source doesn't warn
-: >"$HOME/.config/hypr/hardware.conf"
 ok "Hardware configured"
