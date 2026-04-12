@@ -17,6 +17,7 @@ need_user
 # pamixer = CLI volume control — used by Hyprland keybinds for raise/lower/mute
 # alsa-utils = ALSA tools (amixer, aplay, speaker-test) — useful for debugging
 # wiremix = TUI audio mixer — visual routing between PipeWire apps and devices
+# playerctl = media player controller — used by keybinds for play/pause/next/prev
 info "Audio"
 paru -S --needed --noconfirm \
   pipewire \
@@ -26,7 +27,8 @@ paru -S --needed --noconfirm \
   gst-plugin-pipewire \
   pamixer \
   alsa-utils \
-  wiremix
+  wiremix \
+  playerctl
 ok "Audio installed"
 
 # ── Stow ──────────────────────────────────────────────────────────────────────

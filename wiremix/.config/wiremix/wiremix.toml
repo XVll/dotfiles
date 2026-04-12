@@ -1,2 +1,6 @@
-# wiremix config — PipeWire TUI mixer
+# wiremix.toml — PipeWire TUI mixer config
 # https://github.com/tsowell/wiremix
+# Defaults: https://github.com/tsowell/wiremix/blob/main/wiremix.toml
+
+[char_sets.default]
+default_device = "⮞"
