@@ -70,3 +70,10 @@ ok "System up to date"
 info "Installing base tools"
 sudo pacman -S --needed --noconfirm base-devel git stow paru
 ok "base-devel, git, stow, paru installed"
+
+# Stow bin and apply default theme so app configs that reference
+# ~/.config/theme/current/ work from the first reboot into Hyprland
+info "Applying default theme"
+bash "$DOTFILES_DIR/stow.sh" bin
+bash "$DOTFILES_DIR/bin/.local/bin/theme-set" tokyo-night
+ok "Theme applied (tokyo-night)"
