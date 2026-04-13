@@ -17,7 +17,7 @@ source "$DOTFILES_DIR/install/pre-install.sh"
 source "$DOTFILES_DIR/install/steps/hardware.sh" # GPU drivers + NVIDIA config (after wayland)
 source "$DOTFILES_DIR/install/steps/fonts.sh"    # fonts before anything renders
 source "$DOTFILES_DIR/install/steps/wayland.sh"  # Hyprland + GPU drivers
-source "$DOTFILES_DIR/install/steps/login.sh"    # SDDM autologin + keyring
+source "$DOTFILES_DIR/install/steps/session.sh"  # SDDM + uwsm + keyring
 source "$DOTFILES_DIR/install/steps/terminal.sh" # Ghostty
 source "$DOTFILES_DIR/install/steps/git.sh" # lazygit, delta, gh CLI
 # source "$DOTFILES_DIR/install/steps/shell.sh"        # zsh, starship, CLI tools

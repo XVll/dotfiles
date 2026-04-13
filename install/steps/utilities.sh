@@ -32,7 +32,6 @@ need_user
 # gvfs-mtp = MTP filesystem — browse Android phones as a drive
 # gvfs-nfs = NFS filesystem — mount NFS network shares
 # gvfs-smb = SMB filesystem — mount Windows/Samba shares
-# bluetui = Bluetooth TUI manager — connect/pair devices from the terminal
 # kvantum-qt5 = Qt5 theme engine — for custom Qt app theming
 # exfatprogs = ExFAT tools — read/write ExFAT USB drives
 info "Utilities"
@@ -62,7 +61,6 @@ paru -S --needed --noconfirm \
   gvfs-mtp \
   gvfs-nfs \
   gvfs-smb \
-  bluetui \
   kvantum-qt5 \
   exfatprogs
 ok "Utilities installed"
@@ -102,8 +100,3 @@ if [[ -z ${WIRELESS_REGDOM:-} ]] && [[ -e "/etc/localtime" ]]; then
   fi
 fi
 ok "Wireless regulatory domain set"
-
-# Bluetooth — enable at boot
-info "Enabling bluetooth"
-sudo systemctl enable bluetooth.service
-ok "Bluetooth enabled"

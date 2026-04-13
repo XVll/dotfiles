@@ -25,6 +25,12 @@ bash "$DOTFILES_DIR/stow.sh" git lazygit
 
 # ── Configure ─────────────────────────────────────────────────────────────────
 
+# SSH — add GitHub host key so SSH clones don't fail on a fresh install
+info "Adding GitHub to known_hosts"
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+ok "GitHub host key added"
+
 # Git identity — reads GIT_NAME/GIT_EMAIL env vars or prompts interactively
 info "Setting git identity"
 GIT_NAME="${GIT_NAME:-}"

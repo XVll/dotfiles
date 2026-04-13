@@ -38,4 +38,11 @@ if [[ -n $INTEL_GPU ]]; then
   fi
 fi
 
+# ── Bluetooth ─────────────────────────────────────────────────────────────────
+# bluetui = TUI Bluetooth manager — pulls in bluez (the driver stack) as a dependency
+info "Bluetooth"
+paru -S --needed --noconfirm bluetui
+sudo systemctl enable bluetooth.service
+ok "Bluetooth enabled"
+
 ok "Hardware configured"
