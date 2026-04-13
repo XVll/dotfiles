@@ -22,7 +22,6 @@ need_user
 # unzip = ZIP extraction — surprisingly many installers need this
 # xdg-terminal-exec = standard terminal opener — file managers use this to launch a terminal
 # tldr = simplified man pages with real-world examples — faster than man for common tasks
-# plocate = fast file search via pre-built index — `locate` command
 # whois = domain/IP lookup — useful for quick network investigation
 # dust = disk usage tree — visual `du`, shows what's eating your disk space
 # expac = pacman query tool — inspect package info, used in maintenance scripts
@@ -48,7 +47,6 @@ paru -S --needed --noconfirm \
   unzip \
   xdg-terminal-exec \
   tldr \
-  plocate \
   whois \
   dust \
   expac \
@@ -68,11 +66,6 @@ bash "$DOTFILES_DIR/stow.sh" zsh starship mise
 info "Setting default shell to zsh"
 sudo usermod -s /bin/zsh "$USER"
 ok "Default shell set to zsh (re-login to take effect)"
-
-# Build plocate's file index — the nightly timer hasn't run on a fresh install
-info "Building locate database"
-sudo updatedb
-ok "Locate database built"
 
 # ~/repo — dev projects root. mise adds ./bin to PATH inside any project here
 # so project-local scripts are immediately available without installing globally
