@@ -19,13 +19,13 @@ source "$DOTFILES_DIR/install/steps/fonts.sh"    # fonts before anything renders
 source "$DOTFILES_DIR/install/steps/wayland.sh"  # Hyprland + GPU drivers
 source "$DOTFILES_DIR/install/steps/session.sh"  # SDDM + uwsm + keyring
 source "$DOTFILES_DIR/install/steps/terminal.sh" # Ghostty
-source "$DOTFILES_DIR/install/steps/git.sh" # lazygit, delta, gh CLI
-# source "$DOTFILES_DIR/install/steps/shell.sh"        # zsh, starship, CLI tools
+source "$DOTFILES_DIR/install/steps/git.sh"      # lazygit, delta, gh CLI
+source "$DOTFILES_DIR/install/steps/shell.sh"    # zsh, starship, CLI tools
+source "$DOTFILES_DIR/install/steps/waybar.sh"   # status bar
 # source "$DOTFILES_DIR/install/steps/tmux.sh"         # terminal multiplexer
 # source "$DOTFILES_DIR/install/steps/hypr-ecosystem.sh" # idle, lock, wallpaper, OSD
 # source "$DOTFILES_DIR/install/steps/audio.sh"        # PipeWire — core desktop sound
 # source "$DOTFILES_DIR/install/steps/utilities.sh"    # polkit, grim, iwd, firewall...
-# source "$DOTFILES_DIR/install/steps/waybar.sh"       # status bar
 # source "$DOTFILES_DIR/install/steps/walker.sh"       # app launcher
 # source "$DOTFILES_DIR/install/steps/notifications.sh"  # mako
 # source "$DOTFILES_DIR/install/steps/monitoring.sh"   # btop, fastfetch

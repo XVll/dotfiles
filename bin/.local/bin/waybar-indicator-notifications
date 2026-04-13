@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Outputs JSON for waybar custom module — shows icon when notifications are silenced.
+
+if makoctl mode | grep -q 'do-not-disturb'; then
+  echo '{"text": "󰂛", "tooltip": "Notifications silenced", "class": "active"}'
+else
+  echo '{"text": ""}'
+fi

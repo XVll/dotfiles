@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# waybar-launch-tui <app> — launch a TUI in a floating terminal window.
+# If the app is already running, focus it instead of opening a duplicate.
+# Uses xdg-terminal-exec (terminal-agnostic). Matches by title since not all
+# terminals support --app-id (ghostty ignores it).
+
+APP="$1"
+[[ -z "$APP" ]] && exit 1
+
+TITLE="tui:$APP"
+
+# Focus existing window if one is open
+if hyprctl clients -j | jq -e ".[] | select(.title == \"$TITLE\")" >/dev/null 2>&1; then
+  hyprctl dispatch focuswindow "title:^$TITLE"
+else
+  setsid uwsm-app -- xdg-terminal-exec --title="$TITLE" -e "$APP" &
+fi

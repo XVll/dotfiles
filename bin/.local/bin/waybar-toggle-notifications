@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Toggle mako do-not-disturb mode and signal waybar to refresh the indicator.
+
+if makoctl mode | grep -q 'do-not-disturb'; then
+  makoctl mode -r do-not-disturb
+else
+  makoctl mode -a do-not-disturb
+fi
+
+pkill -RTMIN+10 waybar

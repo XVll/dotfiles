@@ -21,7 +21,7 @@ need_user
 # man-db = man page database and viewer — documentation for system commands
 # unzip = ZIP extraction — surprisingly many installers need this
 # xdg-terminal-exec = standard terminal opener — file managers use this to launch a terminal
-# tldr = simplified man pages with real-world examples — faster than man for common tasks
+# tealdeer = simplified man pages with real-world examples — Rust tldr client (CachyOS default)
 # whois = domain/IP lookup — useful for quick network investigation
 # dust = disk usage tree — visual `du`, shows what's eating your disk space
 # expac = pacman query tool — inspect package info, used in maintenance scripts
@@ -46,7 +46,7 @@ paru -S --needed --noconfirm \
   man-db \
   unzip \
   xdg-terminal-exec \
-  tldr \
+  tealdeer \
   whois \
   dust \
   expac \
@@ -58,6 +58,8 @@ paru -S --needed --noconfirm \
 ok "Shell + tools installed"
 
 # ── Stow ──────────────────────────────────────────────────────────────────────
+# Remove CachyOS default .zshrc if it's not already our symlink
+[ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ] && rm "$HOME/.zshrc"
 bash "$DOTFILES_DIR/stow.sh" zsh starship mise
 
 # ── Configure ─────────────────────────────────────────────────────────────────

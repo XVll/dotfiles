@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Toggle hypridle on/off and signal waybar to refresh the indicator.
+
+if pgrep -x hypridle >/dev/null; then
+  killall hypridle
+else
+  hypridle &
+  disown
+fi
+
+pkill -RTMIN+9 waybar

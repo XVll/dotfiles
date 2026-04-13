@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Outputs JSON for waybar custom module — shows icon when idle lock is disabled.
+
+if pgrep -x hypridle >/dev/null; then
+  echo '{"text": ""}'
+else
+  echo '{"text": "󱫖", "tooltip": "Idle lock disabled", "class": "active"}'
+fi

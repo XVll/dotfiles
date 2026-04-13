@@ -3,76 +3,80 @@
 @import "../theme/current/waybar.css";
 
 * {
-  font-family: "JetBrainsMono Nerd Font", monospace;
-  font-size: 12px;
+  background-color: @background;
+  color: @foreground;
   border: none;
   border-radius: 0;
-  padding: 0;
-  margin: 0;
+  min-height: 0;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 12px;
 }
 
-window#waybar {
-  background-color: @bg-dark;
-  color: @foreground;
-  border-bottom: 1px solid @border;
+.modules-left {
+  margin-left: 8px;
 }
 
-/* ── Left ── */
-#workspaces {
-  padding: 0 4px;
+.modules-right {
+  margin-right: 8px;
 }
 
+/* ── Workspaces ── */
 #workspaces button {
+  all: initial;
   padding: 0 6px;
-  color: @comment;
-  background: transparent;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s ease;
+  margin: 0 1.5px;
+  min-width: 9px;
 }
 
-#workspaces button.active {
-  color: @blue;
-  border-bottom: 2px solid @blue;
-}
-
-#workspaces button.occupied {
-  color: @foreground;
-}
-
-#workspaces button:hover {
-  color: @fg-bright;
-  background: @bg-alt;
+#workspaces button.empty {
+  opacity: 0.5;
 }
 
 /* ── Center ── */
 #clock {
-  color: @fg-bright;
-  font-weight: bold;
-  padding: 0 12px;
+  margin-left: 8.75px;
 }
 
-/* ── Right ── */
-#pulseaudio,
-#network,
+/* ── Right modules ── */
 #cpu,
-#memory,
-#battery {
-  padding: 0 10px;
-  color: @foreground;
+#pulseaudio,
+#custom-expand-icon {
+  min-width: 12px;
+  margin: 0 7.5px;
 }
 
-#pulseaudio { color: @cyan; }
-#network    { color: @green; }
-#cpu        { color: @blue; }
-#memory     { color: @purple; }
+#tray {
+  margin-right: 16px;
+}
 
-#battery { color: @green; }
-#battery.warning  { color: @yellow; }
-#battery.critical { color: @red; }
-#battery.charging { color: @green; }
+#bluetooth {
+  margin-right: 17px;
+}
 
+#network {
+  margin-right: 13px;
+}
+
+#custom-expand-icon {
+  margin-right: 18px;
+}
+
+/* ── Indicators ── */
+#custom-idle-indicator,
+#custom-notification-silencing-indicator {
+  min-width: 12px;
+  margin-left: 5px;
+  margin-right: 0;
+  font-size: 10px;
+  padding-bottom: 1px;
+}
+
+#custom-idle-indicator.active,
+#custom-notification-silencing-indicator.active {
+  color: @red;
+}
+
+/* ── Tooltip ── */
 tooltip {
-  background: @bg-dark;
-  border: 1px solid @border;
-  color: @fg-bright;
+  padding: 2px;
 }
