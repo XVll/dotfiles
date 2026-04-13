@@ -10,7 +10,7 @@ TARGET_DIR="$HOME"
 PACKAGES=(
   bin
   zsh starship
-  nvim
+  nvim mise
   hypr hyprlock hypridle hyprpaper uwsm xdg
   waybar
   walker

@@ -27,6 +27,10 @@ need_user
 # dust = disk usage tree — visual `du`, shows what's eating your disk space
 # expac = pacman query tool — inspect package info, used in maintenance scripts
 # gum = pretty interactive prompts — used by some install/config scripts
+# ripgrep = grep replacement — fast regex search across files
+# fd = find replacement — fast file search
+# mise = universal version manager — manages node/python/dotnet per project
+# postgresql = PostgreSQL client + psql CLI — only if you connect to Postgres
 info "Shell + tools"
 paru -S --needed --noconfirm \
   zsh \
@@ -48,11 +52,15 @@ paru -S --needed --noconfirm \
   whois \
   dust \
   expac \
-  gum
+  gum \
+  ripgrep \
+  fd \
+  mise \
+  postgresql
 ok "Shell + tools installed"
 
 # ── Stow ──────────────────────────────────────────────────────────────────────
-bash "$DOTFILES_DIR/stow.sh" zsh starship
+bash "$DOTFILES_DIR/stow.sh" zsh starship mise
 
 # ── Configure ─────────────────────────────────────────────────────────────────
 
@@ -65,3 +73,15 @@ ok "Default shell set to zsh (re-login to take effect)"
 info "Building locate database"
 sudo updatedb
 ok "Locate database built"
+
+# ~/repo — dev projects root. mise adds ./bin to PATH inside any project here
+# so project-local scripts are immediately available without installing globally
+info "Setting up ~/repo and mise"
+mkdir -p "$HOME/repo/tries"
+cat >"$HOME/repo/.mise.toml" <<'MISE'
+[env]
+_.path = "{{ cwd }}/bin"
+MISE
+mise trust "$HOME/repo/.mise.toml"
+mise install
+ok "~/repo and mise configured"

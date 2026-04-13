@@ -15,7 +15,7 @@ bash "$DOTFILES_DIR/stow.sh" bin
 # without globally installing them. Each invocation fetches the latest version
 # via npx --yes if not cached.
 #
-# Requires: mise and nodejs (from editor.sh)
+# Requires: mise and nodejs (from shell.sh)
 
 info "NPX tools"
 mkdir -p "$HOME/.local/bin"

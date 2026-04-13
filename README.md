@@ -34,3 +34,15 @@ bash install.sh
 | `waybar` | Status bar |
 | `wofi` | App launcher |
 | `wezterm` | Terminal emulator |
+
+## Theme
+* GitDiff
+* LazyGit
+* Hyprland
+* Terminal
+* Waybar
+* LazyVim
+* Walker
+* Ghostty
+* Icons
+* Wallpaper

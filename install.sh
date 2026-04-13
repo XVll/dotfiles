@@ -18,7 +18,7 @@ source "$DOTFILES_DIR/install/steps/hardware.sh" # GPU drivers + NVIDIA config (
 source "$DOTFILES_DIR/install/steps/fonts.sh"    # fonts before anything renders
 source "$DOTFILES_DIR/install/steps/wayland.sh"  # Hyprland + GPU drivers
 source "$DOTFILES_DIR/install/steps/login.sh"    # SDDM autologin + keyring
-# source "$DOTFILES_DIR/install/steps/terminal.sh" # Ghostty
+source "$DOTFILES_DIR/install/steps/terminal.sh" # Ghostty
 source "$DOTFILES_DIR/install/steps/git.sh" # lazygit, delta, gh CLI
 # source "$DOTFILES_DIR/install/steps/shell.sh"        # zsh, starship, CLI tools
 # source "$DOTFILES_DIR/install/steps/tmux.sh"         # terminal multiplexer
@@ -28,12 +28,11 @@ source "$DOTFILES_DIR/install/steps/git.sh" # lazygit, delta, gh CLI
 # source "$DOTFILES_DIR/install/steps/waybar.sh"       # status bar
 # source "$DOTFILES_DIR/install/steps/walker.sh"       # app launcher
 # source "$DOTFILES_DIR/install/steps/notifications.sh"  # mako
-# source "$DOTFILES_DIR/install/steps/editor.sh"       # neovim + language tools
 # source "$DOTFILES_DIR/install/steps/monitoring.sh"   # btop, fastfetch
 # source "$DOTFILES_DIR/install/steps/docker.sh"       # containers
 # source "$DOTFILES_DIR/install/steps/printing.sh"     # CUPS
 # source "$DOTFILES_DIR/install/steps/applications.sh" # GUI apps
 # source "$DOTFILES_DIR/install/steps/tui-entries.sh"  # desktop entries for TUI apps (install last)
-# source "$DOTFILES_DIR/install/steps/npx.sh"          # claude, opencode (needs editor.sh)
+# source "$DOTFILES_DIR/install/steps/npx.sh"          # claude, opencode (needs shell.sh)
 
 # source "$DOTFILES_DIR/install/post-install.sh"

@@ -1,2 +1,2 @@
--- neovim config (LazyVim)
--- https://www.lazyvim.org/installation
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
