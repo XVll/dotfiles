@@ -14,7 +14,6 @@ need_user
 # wl-clipboard = copy/paste for Wayland (replaces xclip/xsel)
 # brightnessctl = screen brightness via keybinds — works with backlight drivers
 # playerctl = media keys — play/pause/next/prev via keybinds, MPRIS protocol
-# jq = JSON processor — used constantly in scripts and by many CLI tools
 # imagemagick = image processing — used by wallpaper tools, thumbnails, scripts
 # inetutils = basic network tools — ping, hostname (some missing from Arch base)
 # ufw = uncomplicated firewall — simple rules-based firewall
@@ -40,7 +39,6 @@ paru -S --needed --noconfirm \
   wl-clipboard \
   brightnessctl \
   playerctl \
-  jq \
   imagemagick \
   inetutils \
   ufw \

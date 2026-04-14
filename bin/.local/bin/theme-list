@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # theme-list — List available themes, marking the current one.
 
-SCRIPT_REAL="$(readlink -f "$0")"
-DOTFILES_DIR="$(realpath "$(dirname "$SCRIPT_REAL")/../../..")"
-THEMES_DIR="$DOTFILES_DIR/themes"
+THEMES_DIR="$HOME/.config/theme/themes"
 CURRENT_FILE="$HOME/.config/theme/current.name"
 
 current=""
 [[ -f "$CURRENT_FILE" ]] && current=$(cat "$CURRENT_FILE")
+
+if [[ ! -d "$THEMES_DIR" ]] || [[ -z "$(ls -A "$THEMES_DIR" 2>/dev/null)" ]]; then
+  echo "No themes found in $THEMES_DIR"
+  exit 0
+fi
 
 for theme_dir in "$THEMES_DIR"/*/; do
   name=$(basename "$theme_dir")

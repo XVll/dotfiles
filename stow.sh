@@ -21,6 +21,7 @@ PACKAGES=(
   btop fastfetch
   imv wiremix wofi
   fontconfig swayosd
+  theme
   applications
 )
 

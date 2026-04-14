@@ -7,17 +7,16 @@ source "$(dirname "${BASH_SOURCE[0]}")/../helpers.sh"
 need_user
 
 # ── Install ───────────────────────────────────────────────────────────────────
-# pipewire = modern audio/video server — replaces PulseAudio and JACK
-# pipewire-pulse = PulseAudio drop-in replacement — existing apps link against
-#                 libpulse and see no difference
-# pipewire-alsa = ALSA compatibility — routes ALSA apps through PipeWire
-# wireplumber = session/policy manager — decides how audio flows between devices
-#               and apps (replaces pipewire-media-session)
+# pipewire       = modern audio/video server — replaces PulseAudio and JACK
+# pipewire-pulse = PulseAudio drop-in replacement — apps link against libpulse
+# pipewire-alsa  = ALSA compatibility — routes ALSA apps through PipeWire
+# pipewire-jack  = JACK compatibility — pro audio apps (Ardour, REAPER) work
+# wireplumber    = session/policy manager — decides how audio flows between
+#                  devices and apps (replaces pipewire-media-session)
 # gst-plugin-pipewire = GStreamer PipeWire plugin — video conferencing needs this
-# pamixer = CLI volume control — used by Hyprland keybinds for raise/lower/mute
-# alsa-utils = ALSA tools (amixer, aplay, speaker-test) — useful for debugging
-# pulsemixer = TUI audio mixer — volumes, default device, mute per-app
-# playerctl = media player controller — used by keybinds for play/pause/next/prev
+# pamixer        = CLI volume control — used by Hyprland keybinds
+# playerctl      = media player controller — keybinds for play/pause/next/prev
+# wiremix        = TUI PipeWire mixer — per-device/stream volume control
 info "Audio"
 paru -S --needed --noconfirm \
   pipewire \
@@ -26,10 +25,14 @@ paru -S --needed --noconfirm \
   wireplumber \
   gst-plugin-pipewire \
   pamixer \
-  alsa-utils \
-  pulsemixer \
-  playerctl
+  playerctl \
+  wiremix
 ok "Audio installed"
+
+# ── Stow ──────────────────────────────────────────────────────────────────────
+info "Stowing wiremix config"
+"$DOTFILES_DIR/stow.sh" wiremix
+ok "WireMix config stowed"
 
 # ── Configure ─────────────────────────────────────────────────────────────────
 

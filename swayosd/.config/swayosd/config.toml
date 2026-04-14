@@ -1,2 +1,7 @@
 # swayosd config — on-screen display for volume/brightness
 # https://github.com/ErikReider/SwayOSD
+
+[server]
+show_percentage = true
+max_volume = 100
+style = "~/.config/swayosd/style.css"

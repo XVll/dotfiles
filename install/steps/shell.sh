@@ -15,19 +15,16 @@ need_user
 # fzf = fuzzy finder — powers Ctrl+R history search, file picker, and more
 # zsh-autosuggestions = grey ghost text from history as you type
 # zsh-syntax-highlighting = command coloring before you hit Enter
-# wget = HTTP downloader — curl alternative, needed by many scripts
-# bash-completion = tab completion scripts — many CLI tools install completions here
 # less = standard terminal pager — man pages and most tools pipe through this
 # man-db = man page database and viewer — documentation for system commands
 # unzip = ZIP extraction — surprisingly many installers need this
 # xdg-terminal-exec = standard terminal opener — file managers use this to launch a terminal
 # tealdeer = simplified man pages with real-world examples — Rust tldr client (CachyOS default)
-# whois = domain/IP lookup — useful for quick network investigation
 # dust = disk usage tree — visual `du`, shows what's eating your disk space
-# expac = pacman query tool — inspect package info, used in maintenance scripts
 # gum = pretty interactive prompts — used by some install/config scripts
 # ripgrep = grep replacement — fast regex search across files
 # fd = find replacement — fast file search
+# jq = JSON processor — used constantly in scripts and by many CLI tools
 # mise = universal version manager — manages node/python/dotnet per project
 # postgresql = PostgreSQL client + psql CLI — only if you connect to Postgres
 info "Shell + tools"
@@ -40,19 +37,16 @@ paru -S --needed --noconfirm \
   fzf \
   zsh-autosuggestions \
   zsh-syntax-highlighting \
-  wget \
-  bash-completion \
   less \
   man-db \
   unzip \
   xdg-terminal-exec \
   tealdeer \
-  whois \
   dust \
-  expac \
   gum \
   ripgrep \
   fd \
+  jq \
   mise \
   postgresql
 ok "Shell + tools installed"

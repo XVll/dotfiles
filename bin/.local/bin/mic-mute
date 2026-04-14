@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# mic-mute — toggle microphone mute with OSD feedback.
+
+swayosd-client \
+  --monitor "$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')" \
+  --input-volume mute-toggle

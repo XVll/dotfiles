@@ -1,145 +1,157 @@
 #!/usr/bin/env bash
-# theme-set <theme-name> — Apply a named theme across all applications.
+# theme-set — Apply a theme across all applications.
 #
-# Architecture:
-#   themes/<name>/colors.toml   — color palette (source of truth)
-#   themes/<name>/neovim.lua    — LazyVim colorscheme spec (copied directly)
-#   themes/<name>/vscode.json   — VS Code extension + colorTheme name
-#   themes/<name>/icons.theme   — icon theme name
-#   theme-templates/*.tpl       — per-app templates using {{ var }} placeholders
+# Usage:
+#   theme-set <theme-name>        Apply a curated theme (catppuccin-mocha, tokyonight, ...)
+#   theme-set -w <wallpaper>      Generate theme from wallpaper using matugen
 #
-# Generated output goes to ~/.config/theme/current/.
-# App configs source/import from that directory (see each stowed config).
-# Non-includable apps (btop, walker, nvim, vscode) are handled specially below.
+# Curated themes live in ~/.config/theme/themes/<name>/ with per-app config files.
+# Wallpaper mode uses matugen to fill ~/.config/theme/templates/ and outputs to current/.
+# All app configs import from ~/.config/theme/current/.
 
 set -euo pipefail
 
-THEME_NAME="${1:-}"
-if [[ -z "$THEME_NAME" ]]; then
-  echo "Usage: theme-set <theme-name>"
+THEME_DIR="$HOME/.config/theme"
+THEMES_DIR="$THEME_DIR/themes"
+TEMPLATES_DIR="$THEME_DIR/templates"
+CURRENT_DIR="$THEME_DIR/current"
+
+usage() {
+  echo "Usage:"
+  echo "  theme-set <theme-name>      Apply a curated theme"
+  echo "  theme-set -w <wallpaper>    Generate theme from wallpaper image"
+  echo ""
   echo "Run 'theme-list' to see available themes."
   exit 1
-fi
-
-# Resolve dotfiles directory from script's real path (handles stow symlink)
-SCRIPT_REAL="$(readlink -f "$0")"
-DOTFILES_DIR="$(realpath "$(dirname "$SCRIPT_REAL")/../../..")"
-
-THEMES_DIR="$DOTFILES_DIR/themes"
-TEMPLATES_DIR="$DOTFILES_DIR/theme-templates"
-CURRENT_DIR="$HOME/.config/theme/current"
-
-THEME_DIR="$THEMES_DIR/$THEME_NAME"
-if [[ ! -d "$THEME_DIR" ]]; then
-  echo "Error: theme '$THEME_NAME' not found in $THEMES_DIR"
-  exit 1
-fi
-
-COLORS_FILE="$THEME_DIR/colors.toml"
-if [[ ! -f "$COLORS_FILE" ]]; then
-  echo "Error: no colors.toml in $THEME_DIR"
-  exit 1
-fi
-
-mkdir -p "$CURRENT_DIR"
-
-# ─── Build sed substitution script from colors.toml ──────────────────────────
-# For each key = "#hexval":
-#   {{ key }}       → #hexval
-#   {{ key_strip }} → hexval  (no leading #)
-#   {{ key_rgb }}   → r,g,b   (for rgba() usage)
-
-hex_to_rgb() {
-  local hex="${1#\#}"
-  printf "%d,%d,%d" "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
 }
 
-SED_SCRIPT=$(mktemp)
-trap 'rm -f "$SED_SCRIPT"' EXIT
+reload_apps() {
+  # waybar: SIGUSR2 forces full config + style reload
+  killall -SIGUSR2 waybar   2>/dev/null || true
+  # mako: reload notification config
+  makoctl reload            2>/dev/null || true
+  # btop: reload theme
+  killall -SIGUSR2 btop     2>/dev/null || true
+  # hyprland: reload to pick up new border colors
+  hyprctl reload            2>/dev/null || true
+  # swayosd: restart to pick up new styles
+  killall swayosd-server    2>/dev/null || true
+  sleep 0.3
+  uwsm-app -- swayosd-server &>/dev/null &
+  # ghostty: reload config (ghostty watches config files automatically)
+}
 
-while IFS='=' read -r key value; do
-  key="${key//[\" ]/}"
-  [[ "$key" && "$key" != "#"* ]] || continue
-  value="${value#*[\"\']}"
-  value="${value%%[\"\']*}"
-  value="${value%% *}"         # strip inline comments
+# ── Wallpaper mode ───────────────────────────────────────────────────────────
+apply_wallpaper() {
+  local wallpaper="$1"
 
-  printf 's|{{ %s }}|%s|g\n'       "$key" "$value"            >> "$SED_SCRIPT"
-  printf 's|{{ %s_strip }}|%s|g\n' "$key" "${value#\#}"       >> "$SED_SCRIPT"
-  if [[ "$value" =~ ^# ]]; then
-    printf 's|{{ %s_rgb }}|%s|g\n' "$key" "$(hex_to_rgb "$value")" >> "$SED_SCRIPT"
-  fi
-done < "$COLORS_FILE"
-
-# ─── Process templates → ~/.config/theme/current/ ────────────────────────────
-for tpl in "$TEMPLATES_DIR"/*.tpl; do
-  filename=$(basename "$tpl" .tpl)
-  sed -f "$SED_SCRIPT" "$tpl" > "$CURRENT_DIR/$filename"
-done
-
-# ─── btop: copy theme file to btop's themes directory ────────────────────────
-mkdir -p "$HOME/.config/btop/themes"
-cp "$CURRENT_DIR/btop.theme" "$HOME/.config/btop/themes/current.theme"
-
-# ─── walker: copy CSS to walker's themes directory ───────────────────────────
-mkdir -p "$HOME/.local/share/walker/themes"
-cp "$CURRENT_DIR/walker.css" "$HOME/.local/share/walker/themes/current.css"
-
-# ─── wofi: write generated CSS directly to wofi config dir ───────────────────
-mkdir -p "$HOME/.config/wofi"
-cp "$CURRENT_DIR/wofi.css" "$HOME/.config/wofi/style.css"
-
-# ─── nvim: copy colorscheme plugin spec ──────────────────────────────────────
-if [[ -f "$THEME_DIR/neovim.lua" ]]; then
-  mkdir -p "$HOME/.config/nvim/lua/plugins"
-  cp "$THEME_DIR/neovim.lua" "$HOME/.config/nvim/lua/plugins/colorscheme.lua"
-fi
-
-# ─── GTK color scheme: dark by default, light if theme has light.mode file ───
-if command -v gsettings &>/dev/null; then
-  if [[ -f "$THEME_DIR/light.mode" ]]; then
-    gsettings set org.gnome.desktop.interface color-scheme "prefer-light" 2>/dev/null || true
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"         2>/dev/null || true
-  else
-    gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"  2>/dev/null || true
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"    2>/dev/null || true
-  fi
-fi
-
-# ─── icons: apply icon theme via gsettings ───────────────────────────────────
-if [[ -f "$THEME_DIR/icons.theme" ]] && command -v gsettings &>/dev/null; then
-  icons=$(tr -d '[:space:]' < "$THEME_DIR/icons.theme")
-  gsettings set org.gnome.desktop.interface icon-theme "$icons" 2>/dev/null || true
-fi
-
-# ─── vscode: install extension + set colorTheme in settings.json ─────────────
-if [[ -f "$THEME_DIR/vscode.json" ]] && command -v code &>/dev/null; then
-  theme_display=$(grep '"name"'      "$THEME_DIR/vscode.json" | sed 's/.*"name"[[:space:]]*:[[:space:]]*"\(.*\)".*/\1/')
-  extension=$(grep '"extension"' "$THEME_DIR/vscode.json" | sed 's/.*"extension"[[:space:]]*:[[:space:]]*"\(.*\)".*/\1/')
-  settings="$HOME/.config/Code/User/settings.json"
-
-  if [[ -n "$extension" ]] && ! code --list-extensions 2>/dev/null | grep -Fxq "$extension"; then
-    code --install-extension "$extension" >/dev/null || true
+  if [[ ! -f "$wallpaper" ]]; then
+    echo "Error: wallpaper '$wallpaper' not found"
+    exit 1
   fi
 
-  if [[ -f "$settings" ]] && [[ -n "$theme_display" ]]; then
-    sed -i "s/\"workbench\.colorTheme\"[[:space:]]*:[[:space:]]*\"[^\"]*\"/\"workbench.colorTheme\": \"$theme_display\"/" "$settings" 2>/dev/null || true
+  if ! command -v matugen &>/dev/null; then
+    echo "Error: matugen is not installed. Install it with: paru -S matugen-bin"
+    exit 1
   fi
-fi
 
-# ─── Save current theme name ─────────────────────────────────────────────────
-echo "$THEME_NAME" > "$HOME/.config/theme/current.name"
+  mkdir -p "$CURRENT_DIR"
 
-# ─── Restart / reload applications ───────────────────────────────────────────
-# waybar: reload_style_on_change handles CSS, but a SIGUSR2 forces full reload
-killall -SIGUSR2 waybar   2>/dev/null || true
-# mako: reload config
-makoctl reload            2>/dev/null || true
-# btop: reload theme
-killall -SIGUSR2 btop     2>/dev/null || true
-# hyprland: reload active border color
-hyprctl reload            2>/dev/null || true
-# walker: restart to pick up new CSS
-killall -SIGUSR1 walker   2>/dev/null || true
+  # Run matugen — reads ~/.config/matugen/config.toml for template → output mappings
+  # Outputs go directly to ~/.config/theme/current/
+  matugen image "$wallpaper" \
+    --mode dark \
+    --type scheme-tonal-spot \
+    --prefer saturation
 
-echo "Theme '$THEME_NAME' applied."
+  # Set wallpaper via hyprctl (hyprpaper)
+  local monitor
+  monitor=$(hyprctl monitors -j | jq -r '.[0].name')
+  hyprctl hyprpaper preload "$wallpaper"  2>/dev/null || true
+  hyprctl hyprpaper wallpaper "$monitor,$wallpaper" 2>/dev/null || true
+
+  echo "wallpaper:$wallpaper" > "$THEME_DIR/current.name"
+  echo "Theme generated from wallpaper: $wallpaper"
+  reload_apps
+}
+
+# ── Curated theme mode ───────────────────────────────────────────────────────
+apply_theme() {
+  local theme_name="$1"
+  local source_dir="$THEMES_DIR/$theme_name"
+
+  if [[ ! -d "$source_dir" ]]; then
+    echo "Error: theme '$theme_name' not found in $THEMES_DIR"
+    echo "Available themes:"
+    theme-list
+    exit 1
+  fi
+
+  mkdir -p "$CURRENT_DIR"
+
+  # Copy all theme files into current/
+  for file in "$source_dir"/*; do
+    [[ -f "$file" ]] || continue
+    local filename
+    filename=$(basename "$file")
+    cp "$file" "$CURRENT_DIR/$filename"
+  done
+
+  # ── Special handlers for apps that can't import from current/ ──────────
+
+  # btop: needs theme in its own themes directory
+  if [[ -f "$CURRENT_DIR/btop.theme" ]]; then
+    local btop_theme
+    btop_theme=$(cat "$CURRENT_DIR/btop.theme")
+    # btop.theme contains just the theme name — btop ships with catppuccin etc.
+    if [[ -n "$btop_theme" ]]; then
+      mkdir -p "$HOME/.config/btop"
+      # Update btop.conf color_theme line if it exists, or note for user
+      if [[ -f "$HOME/.config/btop/btop.conf" ]]; then
+        sed -i "s|^color_theme = .*|color_theme = \"$btop_theme\"|" "$HOME/.config/btop/btop.conf"
+      fi
+    fi
+  fi
+
+  # nvim: colorscheme name for the user's neovim config
+  # (nvim.txt contains just the colorscheme name, e.g. "catppuccin")
+
+  # GTK: prefer dark/light based on theme
+  if command -v gsettings &>/dev/null; then
+    if [[ -f "$source_dir/light.mode" ]]; then
+      gsettings set org.gnome.desktop.interface color-scheme "prefer-light" 2>/dev/null || true
+    else
+      gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"  2>/dev/null || true
+    fi
+  fi
+
+  # Set wallpaper if theme includes one
+  if [[ -f "$source_dir/wallpaper.jpg" ]] || [[ -f "$source_dir/wallpaper.png" ]]; then
+    local wallpaper
+    wallpaper=$(ls "$source_dir"/wallpaper.* 2>/dev/null | head -1)
+    local monitor
+    monitor=$(hyprctl monitors -j | jq -r '.[0].name')
+    hyprctl hyprpaper preload "$wallpaper"  2>/dev/null || true
+    hyprctl hyprpaper wallpaper "$monitor,$wallpaper" 2>/dev/null || true
+  fi
+
+  echo "$theme_name" > "$THEME_DIR/current.name"
+  echo "Theme '$theme_name' applied."
+  reload_apps
+}
+
+# ── Main ─────────────────────────────────────────────────────────────────────
+[[ $# -ge 1 ]] || usage
+
+case "$1" in
+  -w|--wallpaper)
+    [[ -n "${2:-}" ]] || usage
+    apply_wallpaper "$2"
+    ;;
+  -h|--help)
+    usage
+    ;;
+  *)
+    apply_theme "$1"
+    ;;
+esac
