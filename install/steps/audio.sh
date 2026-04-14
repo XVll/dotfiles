@@ -16,7 +16,7 @@ need_user
 # gst-plugin-pipewire = GStreamer PipeWire plugin — video conferencing needs this
 # pamixer = CLI volume control — used by Hyprland keybinds for raise/lower/mute
 # alsa-utils = ALSA tools (amixer, aplay, speaker-test) — useful for debugging
-# wiremix = TUI audio mixer — visual routing between PipeWire apps and devices
+# pulsemixer = TUI audio mixer — volumes, default device, mute per-app
 # playerctl = media player controller — used by keybinds for play/pause/next/prev
 info "Audio"
 paru -S --needed --noconfirm \
@@ -27,12 +27,9 @@ paru -S --needed --noconfirm \
   gst-plugin-pipewire \
   pamixer \
   alsa-utils \
-  wiremix \
+  pulsemixer \
   playerctl
 ok "Audio installed"
-
-# ── Stow ──────────────────────────────────────────────────────────────────────
-bash "$DOTFILES_DIR/stow.sh" wiremix
 
 # ── Configure ─────────────────────────────────────────────────────────────────
 
