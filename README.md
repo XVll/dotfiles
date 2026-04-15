@@ -1,48 +1,9 @@
-# dotfiles
+# Omarchy
 
-Personal Arch Linux dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Omarchy is a beautiful, modern & opinionated Linux distribution by DHH.
 
-## Structure
+Read more at [omarchy.org](https://omarchy.org).
 
-Each directory is a Stow package — it mirrors the structure of `$HOME`.
+## License
 
-```
-dotfiles/
-  zsh/        → ~/.zshrc
-  nvim/       → ~/.config/nvim/
-  hypr/       → ~/.config/hypr/
-  waybar/     → ~/.config/waybar/
-  ...
-```
-
-## Install
-
-```bash
-git clone https://github.com/XVll/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-bash install.sh
-./stow.sh
-```
-
-## Packages
-
-| Package | Description |
-|---|---|
-| `zsh` | Shell + aliases |
-| `nvim` | Neovim (LazyVim) |
-| `hypr` | Hyprland WM |
-| `waybar` | Status bar |
-| `wofi` | App launcher |
-| `wezterm` | Terminal emulator |
-
-## Theme
-* GitDiff
-* LazyGit
-* Hyprland
-* Terminal
-* Waybar
-* LazyVim
-* Walker
-* Ghostty
-* Icons
-* Wallpaper
+Omarchy is released under the [MIT License](https://opensource.org/licenses/MIT).

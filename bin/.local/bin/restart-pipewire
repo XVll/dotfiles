@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-# restart-pipewire — restart the PipeWire audio service to fix audio issues
-# or apply new configuration.
-
-echo "Restarting PipeWire audio service..."
-systemctl --user restart pipewire.service
-echo "Done."
