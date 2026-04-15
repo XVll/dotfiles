@@ -4,7 +4,7 @@
 
 set -e
 
-omarchy-pkg-add flatpak
+pkg-add flatpak
 cd /tmp
 
 # Download and run GeForce NOW

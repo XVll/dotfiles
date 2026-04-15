@@ -35,7 +35,7 @@ install_windows() {
 
   check_prerequisites
 
-  omarchy-pkg-add freerdp openbsd-netcat gum
+  pkg-add freerdp openbsd-netcat gum
 
   mkdir -p "$HOME/.windows"
   mkdir -p "$HOME/.config/windows"

@@ -90,7 +90,6 @@ nss-mdns
 nvim
 obs-studio
 obsidian
-omarchy-nvim
 omarchy-walker
 pamixer
 pinta
@@ -143,5 +142,5 @@ xdg-terminal-exec
 xmlstarlet
 xournalpp
 yaru-icon-theme
-yay
+paru
 zoxide

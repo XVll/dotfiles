@@ -3,7 +3,7 @@
 # Install VSCode and configure it to use the gnome-libsecret password store, not to update automatically, and to use the current Omarchy theme.
 
 echo "Installing VSCode..."
-omarchy-pkg-add visual-studio-code-bin
+pkg-add visual-studio-code-bin
 
 mkdir -p ~/.vscode ~/.config/Code/User
 

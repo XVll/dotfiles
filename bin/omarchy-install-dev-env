@@ -8,7 +8,7 @@ if [[ -z $1 ]]; then
 fi
 
 install_php() {
-  omarchy-pkg-add php composer php-sqlite xdebug
+  pkg-add php composer php-sqlite xdebug
 
   # Install Path for Composer
   if [[ :$PATH: != *:$HOME/.config/composer/vendor/bin:* ]]; then
@@ -49,7 +49,7 @@ install_node() {
 case "$1" in
 ruby)
   echo -e "Installing Ruby on Rails...\n"
-  omarchy-pkg-add libyaml
+  pkg-add libyaml
   mise settings add ruby.compile false
   mise settings add idiomatic_version_file_enable_tools ruby
   mise use --global ruby@latest
@@ -86,7 +86,7 @@ laravel)
 symfony)
   echo -e "Installing PHP and Symfony...\n"
   install_php
-  omarchy-pkg-add symfony-cli
+  pkg-add symfony-cli
   echo -e "\nYou can now run: symfony new --webapp myproject"
   ;;
 python)
@@ -139,7 +139,7 @@ dotnet)
   ;;
 clojure)
   echo -e "Installing Clojure...\n"
-  omarchy-pkg-add rlwrap
+  pkg-add rlwrap
   mise use --global clojure@latest
   ;;
 scala)

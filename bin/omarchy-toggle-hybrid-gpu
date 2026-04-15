@@ -5,7 +5,7 @@
 
 # Ensure supergfxctl has been installed
 if omarchy-cmd-missing supergfxctl; then
-  omarchy-pkg-add supergfxctl
+  pkg-add supergfxctl
 
   # Create config before starting service to prevent hang on first boot
   sudo tee /etc/supergfxd.conf >/dev/null <<'CONF'

@@ -21,7 +21,7 @@ kitty) desktop_id="kitty.desktop" ;;
 esac
 
 # Install package
-if omarchy-pkg-add $package; then
+if pkg-add $package; then
   # Copy custom desktop entry for alacritty with X-TerminalArg* keys
   if [[ $package == "alacritty" ]]; then
     mkdir -p ~/.local/share/applications
