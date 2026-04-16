@@ -2,7 +2,7 @@
 
 # Launcher domain: walker, elephant
 
-pkg-add omarchy-walker libqalculate
+pkg-add walker-bin elephant-bin libqalculate
 
 cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" launcher
 
@@ -19,12 +19,11 @@ sudo tee /etc/pacman.d/hooks/walker-restart.hook > /dev/null << EOF
 [Trigger]
 Type = Package
 Operation = Upgrade
-Target = walker
-Target = walker-debug
+Target = walker*
 Target = elephant*
 
 [Action]
 Description = Restarting Walker services after system update
 When = PostTransaction
-Exec = $OMARCHY_PATH/bin/omarchy-restart-walker
+Exec = $HOME/.dotfiles/bin/omarchy-restart-walker
 EOF
