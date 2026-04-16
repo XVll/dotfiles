@@ -2,7 +2,7 @@
 
 # System domain: systemd tweaks, power, sysctl, sudoers
 
-pkg-add kernel-modules-hook power-profiles-daemon tzupdate \
+pkg-add kernel-modules-hook \
   gvfs-mtp gvfs-nfs gvfs-smb inetutils inxi \
   xmlstarlet qt5-wayland libsecret libyaml exfatprogs
 
@@ -10,23 +10,16 @@ cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" system
 
 # Faster shutdown systemd configs
 sudo mkdir -p /etc/systemd/system.conf.d
-sudo cp "$OMARCHY_PATH/systemd/faster-shutdown.conf" /etc/systemd/system.conf.d/10-faster-shutdown.conf 2>/dev/null
+sudo cp "$DOTFILES/system/systemd/faster-shutdown.conf" /etc/systemd/system.conf.d/10-faster-shutdown.conf
 sudo mkdir -p /etc/systemd/system/user@.service.d
 sudo cp ~/.config/systemd/user@.service.d/faster-shutdown.conf /etc/systemd/system/user@.service.d/
 
 # System-sleep scripts
 sudo mkdir -p /usr/lib/systemd/system-sleep
-sudo install -m 0755 -o root -g root "$OMARCHY_PATH/systemd/system-sleep/keyboard-backlight" /usr/lib/systemd/system-sleep/
-sudo install -m 0755 -o root -g root "$OMARCHY_PATH/systemd/system-sleep/unmount-fuse" /usr/lib/systemd/system-sleep/
+sudo install -m 0755 -o root -g root "$DOTFILES/system/systemd/system-sleep/unmount-fuse" /usr/lib/systemd/system-sleep/
 
 # Kernel modules hook
 sudo systemctl enable --now linux-modules-cleanup.service
-
-# Timezone sudoers
-sudo tee /etc/sudoers.d/omarchy-tzupdate >/dev/null <<EOF
-%wheel ALL=(root) NOPASSWD: /usr/bin/tzupdate, /usr/bin/timedatectl
-EOF
-sudo chmod 0440 /etc/sudoers.d/omarchy-tzupdate
 
 # Increase sudo password tries
 echo "Defaults passwd_tries=10" | sudo tee /etc/sudoers.d/passwd-tries >/dev/null
@@ -44,9 +37,6 @@ sudo sed -i '/auth.*pam_permit\.so/a auth        required    pam_faillock.so aut
 # Increase file watchers for dev tools
 echo "fs.inotify.max_user_watches=524288" | sudo tee /etc/sysctl.d/90-file-watchers.conf >/dev/null
 sudo sysctl --system >/dev/null 2>&1
-
-# Fix powerprofilesctl shebang for mise compatibility
-sudo sed -i '/env python3/ c\#!/bin/python3' /usr/bin/powerprofilesctl 2>/dev/null
 
 # Disable USB autosuspend
 if [[ ! -f /etc/modprobe.d/disable-usb-autosuspend.conf ]]; then

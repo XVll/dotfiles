@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Browser domain: chromium, brave
+# Browser domain: chromium
 
 pkg-add chromium
 
