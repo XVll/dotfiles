@@ -1,3 +1,6 @@
+# TODO: Validate against CachyOS nvidia handling — CachyOS has its own nvidia
+# installer/detection that may overlap or conflict with this script.
+
 NVIDIA="$(lspci | grep -i 'nvidia')"
 
 if [[ -n $NVIDIA ]]; then

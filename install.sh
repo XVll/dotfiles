@@ -24,4 +24,3 @@ command -v limine &>/dev/null || { echo "Limine bootloader required"; exit 1; }
 source "$OMARCHY_INSTALL/packaging/all.sh"
 source "$OMARCHY_INSTALL/config/all.sh"
 source "$OMARCHY_INSTALL/login/all.sh"
-source "$OMARCHY_INSTALL/post-install/all.sh"

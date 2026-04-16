@@ -34,7 +34,6 @@ fi
 cat > "$LOG_FILE" <<EOF
 Date: $(date)
 Hostname: $(hostname)
-Omarchy Branch: $(git -C "$OMARCHY_PATH" branch --show-current 2>/dev/null || echo "unknown")
 
 =========================================
 SYSTEM INFORMATION

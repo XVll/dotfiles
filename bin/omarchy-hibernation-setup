@@ -8,11 +8,6 @@ if [[ ! -f /sys/power/image_size ]]; then
   exit 0
 fi
 
-if ! command -v limine-mkinitcpio &>/dev/null; then
-  echo "Skipping hibernation setup (requires Limine bootloader)"
-  exit 0
-fi
-
 MKINITCPIO_CONF="/etc/mkinitcpio.conf.d/omarchy_resume.conf"
 
 # Check if hibernation is already configured
@@ -68,32 +63,20 @@ sudo cp -p "$OMARCHY_PATH/default/systemd/system-sleep/keyboard-backlight" /usr/
 
 # Add resume= kernel parameters so the initramfs resume hook knows where to find the
 # hibernation image. Without these, resume happens late (after GPU drivers load) and fails.
-RESUME_DROP_IN="/etc/limine-entry-tool.d/resume.conf"
-if [[ ! -f $RESUME_DROP_IN ]]; then
+# TODO: Validate kernel cmdline handling on CachyOS — may use /etc/kernel/cmdline
+#       or /etc/default/limine depending on CachyOS version
+KERNEL_CMDLINE="/etc/kernel/cmdline"
+if [[ -f $KERNEL_CMDLINE ]] && ! grep -q "resume=" "$KERNEL_CMDLINE"; then
   echo "Adding resume kernel parameters"
   sudo swapon -p 0 "$SWAP_FILE" 2>/dev/null
   RESUME_DEVICE=$(findmnt -no SOURCE -T "$SWAP_FILE" | sed 's/\[.*\]//')
   RESUME_OFFSET=$(sudo btrfs inspect-internal map-swapfile -r "$SWAP_FILE")
-  sudo mkdir -p /etc/limine-entry-tool.d
-  echo "KERNEL_CMDLINE[default]+=\" resume=$RESUME_DEVICE resume_offset=$RESUME_OFFSET\"" | sudo tee "$RESUME_DROP_IN" >/dev/null
-  sudo tee -a /etc/default/limine < "$RESUME_DROP_IN" >/dev/null
+  sudo sed -i "s|$| resume=$RESUME_DEVICE resume_offset=$RESUME_OFFSET|" "$KERNEL_CMDLINE"
 fi
 
-# Use ACPI alarm for RTC wakeup on s2idle systems (needed for suspend-then-hibernate)
-if grep -q "\[s2idle\]" /sys/power/mem_sleep 2>/dev/null; then
-  LIMINE_DROP_IN="/etc/limine-entry-tool.d/rtc-alarm.conf"
-  if [[ ! -f $LIMINE_DROP_IN ]]; then
-    echo "Enabling ACPI RTC alarm for s2idle suspend"
-    sudo mkdir -p /etc/limine-entry-tool.d
-    echo 'KERNEL_CMDLINE[default]+=" rtc_cmos.use_acpi_alarm=1"' | sudo tee "$LIMINE_DROP_IN" >/dev/null
-    sudo tee -a /etc/default/limine < "$LIMINE_DROP_IN" >/dev/null
-  fi
-fi
-
-# Regenerate initramfs and boot entry
+# Regenerate initramfs
 echo "Regenerating initramfs..."
-sudo limine-mkinitcpio
-sudo limine-update
+sudo mkinitcpio -P
 
 echo
 

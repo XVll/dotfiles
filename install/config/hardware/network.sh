@@ -1,3 +1,7 @@
+# TODO: Rework for CachyOS — use NetworkManager with iwd backend
+# CachyOS ships NetworkManager by default. Configure NM to use iwd as wifi backend
+# instead of enabling standalone iwd.
+
 # Ensure iwd service will be started
 sudo systemctl enable iwd.service
 

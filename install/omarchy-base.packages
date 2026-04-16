@@ -7,7 +7,7 @@ aether
 alacritty
 alsa-utils
 asdcontrol
-avahi
+
 bash-completion
 bat
 bluetui
@@ -17,10 +17,7 @@ btop
 chromium
 clang
 claude-code
-cups
-cups-browsed
-cups-filters
-cups-pdf
+
 docker
 docker-buildx
 docker-compose
@@ -86,7 +83,7 @@ gnome-disk-utility
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
-nss-mdns
+
 nvim
 obs-studio
 obsidian
@@ -94,7 +91,7 @@ omarchy-walker
 pamixer
 pinta
 playerctl
-plocate
+
 plymouth
 polkit-gnome
 postgresql-libs
@@ -115,7 +112,7 @@ starship
 sushi
 swaybg
 swayosd
-system-config-printer
+
 tldr
 tree-sitter-cli
 tmux

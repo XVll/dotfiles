@@ -1,4 +1,3 @@
-omarchy-refresh-applications
 update-desktop-database ~/.local/share/applications
 
 # Open directories in file manager
@@ -36,9 +35,6 @@ xdg-mime default mpv.desktop video/x-ms-asf
 xdg-mime default mpv.desktop video/x-ogm+ogg
 xdg-mime default mpv.desktop video/x-theora+ogg
 xdg-mime default mpv.desktop application/ogg
-
-# Use Hey for mailto: links
-xdg-mime default HEY.desktop x-scheme-handler/mailto
 
 # Open text files with nvim
 xdg-mime default nvim.desktop text/plain
