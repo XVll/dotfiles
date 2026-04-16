@@ -1,7 +1,6 @@
 #!/bin/bash
 
-TEMPLATES_DIR="$OMARCHY_PATH/default/themed"
-USER_TEMPLATES_DIR="$HOME/.config/omarchy/themed"
+TEMPLATES_DIR="$HOME/.config/omarchy/themed"
 NEXT_THEME_DIR="$HOME/.config/omarchy/current/next-theme"
 COLORS_FILE="$NEXT_THEME_DIR/colors.toml"
 
@@ -31,8 +30,7 @@ if [[ -f $COLORS_FILE ]]; then
 
   shopt -s nullglob
 
-  # Process user templates first, then built-in templates (user overrides built-in)
-  for tpl in "$USER_TEMPLATES_DIR"/*.tpl "$TEMPLATES_DIR"/*.tpl; do
+  for tpl in "$TEMPLATES_DIR"/*.tpl; do
     filename=$(basename "$tpl" .tpl)
     output_path="$NEXT_THEME_DIR/$filename"
 
