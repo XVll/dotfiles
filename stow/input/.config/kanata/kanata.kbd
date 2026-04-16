@@ -1,0 +1,12 @@
+(defsrc
+  caps
+)
+
+(deflayer default
+  @caps
+)
+
+(defalias
+  ;; Tap CapsLock = Escape, Hold CapsLock = Control
+  caps (tap-hold 200 200 esc lctl)
+)

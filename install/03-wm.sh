@@ -6,6 +6,6 @@ pkg-add hyprland hypridle hyprlock hyprsunset uwsm \
   xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
   hyprland-preview-share-picker hyprland-guiutils \
   polkit-gnome swaybg grim slurp hyprpicker satty \
-  brightnessctl wl-clipboard gpu-screen-recorder
+  brightnessctl wl-clipboard gpu-screen-recorder swayosd
 
 cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" wm

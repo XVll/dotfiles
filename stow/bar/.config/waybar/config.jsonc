@@ -49,7 +49,7 @@
     "interval": 5,
     "format": "󰍛",
     "on-click": "omarchy-launch-or-focus-tui btop",
-    "on-click-right": "alacritty"
+    "on-click-right": "kitty"
   },
   "clock": {
     "format": "{:L%A %H:%M}",
