@@ -21,17 +21,10 @@ sudo install -m 0755 -o root -g root "$OMARCHY_PATH/systemd/system-sleep/keyboar
 sudo install -m 0755 -o root -g root "$OMARCHY_PATH/systemd/system-sleep/unmount-fuse" /usr/lib/systemd/system-sleep/
 
 # Kernel modules hook
-chrootable_systemctl_enable linux-modules-cleanup.service
+sudo systemctl enable --now linux-modules-cleanup.service
 
 # DNS resolver
 sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
-# GPG keyserver config
-sudo mkdir -p /etc/gnupg
-sudo cp ~/.gnupg/dirmngr.conf /etc/gnupg/
-sudo chmod 644 /etc/gnupg/dirmngr.conf
-sudo gpgconf --kill dirmngr || true
-sudo gpgconf --launch dirmngr || true
 
 # Timezone sudoers
 sudo tee /etc/sudoers.d/omarchy-tzupdate >/dev/null <<EOF
@@ -100,7 +93,7 @@ if [[ ! -n ${WIRELESS_REGDOM} ]]; then
 fi
 
 # Bluetooth
-chrootable_systemctl_enable bluetooth.service
+sudo systemctl enable --now bluetooth.service
 
 # Firewall
 sudo ufw default deny incoming
