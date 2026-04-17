@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Input domain: fonts, fontconfig
+# Input domain: fonts, fontconfig, kanata
 
 pkg-add fontconfig kanata \
   noto-fonts noto-fonts-cjk noto-fonts-emoji \
-  ttf-jetbrains-mono-nerd ttf-ia-writer woff2-font-awesome
+  ttf-jetbrains-mono-nerd
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" input
+cd "$DOTFILES" && stow -d stow -t "$HOME" input
 
-# Enable kanata key remapping service
+# Install kanata service (substitute current user into the template)
+sed "s|__USER__|$USER|g" "$DOTFILES/system/systemd/kanata.service" \
+  | sudo tee /etc/systemd/system/kanata.service >/dev/null
+sudo systemctl daemon-reload
 sudo systemctl enable --now kanata.service

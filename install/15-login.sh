@@ -1,23 +1,10 @@
 #!/bin/bash
 
-# Login domain: SDDM, Plymouth
+# Login domain: greetd + Dank greeter (matches DMS theme)
 
-pkg-add sddm plymouth
+pkg-add greetd-dms-greeter-git
 
-# SDDM theme
-omarchy-refresh-sddm
-
-sudo mkdir -p /etc/sddm.conf.d
-if [[ ! -f /etc/sddm.conf.d/theme.conf ]]; then
-  cat <<EOF | sudo tee /etc/sddm.conf.d/theme.conf
-[Theme]
-Current=omarchy
-EOF
-fi
-
-sudo systemctl enable sddm.service
-
-# Plymouth theme
-sudo mkdir -p /usr/share/plymouth/themes/omarchy
-omarchy-refresh-plymouth
-sudo plymouth-set-default-theme omarchy
+# Enables greetd.service and configures PAM + dms-greeter; sync copies
+# theme/wallpaper/ACLs so the greeter can read your DMS state.
+dms greeter enable
+dms greeter sync

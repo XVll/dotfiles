@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Audio domain: pipewire, wireplumber
+# Audio domain: pipewire stack, CLI helpers
 
-pkg-add pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber \
-  wiremix alsa-utils pamixer playerctl
+pkg-add pipewire pipewire-alsa pipewire-pulse wireplumber \
+  alsa-utils playerctl
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" audio
+cd "$DOTFILES" && stow -d stow -t "$HOME" audio

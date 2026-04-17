@@ -10,7 +10,7 @@ pkg-add lazygit btop fastfetch imv nautilus nautilus-python python-gobject \
   ffmpegthumbnailer dust python-terminaltexteffects impala \
   visual-studio-code-bin
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" apps
+cd "$DOTFILES" && stow -d stow -t "$HOME" apps
 
 # Application icons (used by webapp and TUI .desktop entries)
 ICON_DIR="$HOME/.local/share/applications/icons"

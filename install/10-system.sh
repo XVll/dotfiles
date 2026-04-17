@@ -6,7 +6,7 @@ pkg-add kernel-modules-hook \
   gvfs-mtp gvfs-nfs gvfs-smb inetutils inxi \
   xmlstarlet qt5-wayland libsecret libyaml exfatprogs
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" system
+cd "$DOTFILES" && stow -d stow -t "$HOME" system
 
 # Faster shutdown systemd configs
 sudo mkdir -p /etc/systemd/system.conf.d

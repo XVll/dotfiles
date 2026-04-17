@@ -4,4 +4,4 @@
 
 pkg-add chromium
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" browser
+cd "$DOTFILES" && stow -d stow -t "$HOME" browser

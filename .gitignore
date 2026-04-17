@@ -1,1 +1,8 @@
 .DS_Store
+
+# Fish runtime state (universal variables etc.)
+stow/shell/.config/fish/fish_variables
+
+# DMS matugen-generated palette files (land in stow'd dirs due to tree folding)
+stow/terminal/.config/kitty/dank-theme.conf
+stow/terminal/.config/kitty/dank-tabs.conf

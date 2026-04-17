@@ -8,4 +8,4 @@ pkg-add hyprland hypridle hyprlock hyprsunset uwsm \
   polkit-gnome swaybg grim slurp hyprpicker satty \
   brightnessctl wl-clipboard gpu-screen-recorder swayosd
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" wm
+cd "$DOTFILES" && stow -d stow -t "$HOME" wm

@@ -2,9 +2,9 @@
 
 # Docker domain
 
-pkg-add docker docker-buildx docker-compose lazydocker
+pkg-add docker docker-buildx lazydocker
 
-# Docker daemon config
+# Daemon config: log rotation + bridge-network DNS to host resolved
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json >/dev/null <<'EOF'
 {
@@ -15,22 +15,16 @@ sudo tee /etc/docker/daemon.json >/dev/null <<'EOF'
 }
 EOF
 
-# Expose systemd-resolved to Docker network
+# Expose systemd-resolved to the docker bridge
 sudo mkdir -p /etc/systemd/resolved.conf.d
-echo -e '[Resolve]\nDNSStubListenerExtra=172.17.0.1' | sudo tee /etc/systemd/resolved.conf.d/20-docker-dns.conf >/dev/null
+echo -e '[Resolve]\nDNSStubListenerExtra=172.17.0.1' \
+  | sudo tee /etc/systemd/resolved.conf.d/20-docker-dns.conf >/dev/null
 sudo systemctl restart systemd-resolved
 
-# Start Docker on-demand via socket activation
-sudo systemctl enable docker.socket
+# Start Docker on demand (socket activation — daemon runs only when needed)
+sudo systemctl enable --now docker.socket
 
-# Prevent Docker from blocking boot on network-online.target
-sudo mkdir -p /etc/systemd/system/docker.service.d
-sudo tee /etc/systemd/system/docker.service.d/no-block-boot.conf >/dev/null <<'EOF'
-[Unit]
-DefaultDependencies=no
-EOF
-
-# Give this user privileged Docker access
+# Non-sudo docker access
 sudo usermod -aG docker "$USER"
 
 sudo systemctl daemon-reload

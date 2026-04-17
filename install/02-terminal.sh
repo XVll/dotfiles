@@ -4,4 +4,4 @@
 
 pkg-add kitty ghostty tmux xdg-terminal-exec
 
-cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" terminal
+cd "$DOTFILES" && stow -d stow -t "$HOME" terminal

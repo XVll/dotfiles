@@ -12,6 +12,7 @@ abbr --add ... 'cd ../..'
 abbr --add .... 'cd ../../..'
 
 # Tools
+abbr --add cat bat
 abbr --add c opencode
 abbr --add cx 'printf "\033[2J\033[3J\033[H" && claude --allow-dangerously-skip-permissions'
 abbr --add d docker

@@ -1,6 +1,7 @@
 # Editor used by CLI
 set -gx EDITOR nvim
 set -gx SUDO_EDITOR $EDITOR
+set -gx TERMINAL ghostty
 set -gx BAT_THEME ansi
 
 # Dotfiles bin on PATH
