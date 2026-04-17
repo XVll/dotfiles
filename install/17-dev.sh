@@ -2,6 +2,11 @@
 
 # Dev domain: compilers, language runtimes, build tools
 
-pkg-add clang llvm rust ruby luarocks tree-sitter-cli \
-  dotnet-runtime-9.0 python-poetry-core \
-  mariadb-libs postgresql-libs claude-code
+pkg-add luarocks tree-sitter-cli postgresql-libs claude-code
+
+# Language runtimes via mise
+mise use --global node@latest
+mise use --global bun@latest
+mise use --global python@latest
+curl -fsSL https://astral.sh/uv/install.sh | sh
+mise use --global dotnet@latest

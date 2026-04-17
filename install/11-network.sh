@@ -52,3 +52,13 @@ sudo ufw --force enable
 sudo systemctl enable ufw
 sudo ufw-docker install
 sudo ufw reload
+
+# Tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up --accept-routes
+omarchy-webapp-install "Tailscale" "https://login.tailscale.com/admin/machines" https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/tailscale-light.png
+
+# NordVPN
+pkg-add nordvpn-bin
+sudo systemctl enable --now nordvpnd
+sudo usermod -aG nordvpn "$USER"

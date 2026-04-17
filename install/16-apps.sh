@@ -7,7 +7,8 @@ pkg-add lazygit btop fastfetch imv nautilus nautilus-python python-gobject \
   1password-beta 1password-cli evince gnome-calculator gnome-disk-utility \
   gnome-keyring gnome-themes-extra imagemagick kdenlive libreoffice-fresh \
   mpv nvim obs-studio pinta signal-desktop spotify sushi \
-  ffmpegthumbnailer dust python-terminaltexteffects impala
+  ffmpegthumbnailer dust python-terminaltexteffects impala \
+  visual-studio-code-bin
 
 cd "$(dirname "$0")/.." && stow -d stow -t "$HOME" apps
 
@@ -81,6 +82,16 @@ xdg-mime default nvim.desktop text/x-c
 xdg-mime default nvim.desktop text/x-c++
 xdg-mime default nvim.desktop application/xml
 xdg-mime default nvim.desktop text/xml
+
+# VSCode configuration
+mkdir -p ~/.vscode ~/.config/Code/User
+cat > ~/.vscode/argv.json << 'ARGVEOF'
+{
+  "password-store":"gnome-libsecret"
+}
+ARGVEOF
+printf '{\n  "update.mode": "none"\n}\n' > ~/.config/Code/User/settings.json
+omarchy-theme-set-vscode
 
 # Install mise tools
 mise install
