@@ -4,7 +4,7 @@
 
 pkg-add fish starship git \
   bat eza fd fzf less man-db ripgrep tealdeer unzip \
-  zoxide jq github-cli gum
+  zoxide jq github-cli gum dust
 
 cd "$DOTFILES" && stow -d stow -t "$HOME" shell
 

@@ -1,35 +1,45 @@
 #!/bin/bash
 
-# Apps domain: lazygit, opencode, mise, btop, fastfetch, imv, nautilus, xournalpp, typora
+# Apps domain: GUI + TUI apps, file managers, media, mime handlers, webapps
 
-pkg-add lazygit btop fastfetch imv nautilus nautilus-python python-gobject \
-  xournalpp typora mise obsidian localsend \
-  1password-beta 1password-cli evince gnome-calculator gnome-disk-utility \
-  gnome-keyring gnome-themes-extra imagemagick kdenlive libreoffice-fresh \
-  mpv nvim obs-studio pinta signal-desktop spotify sushi \
-  ffmpegthumbnailer dust python-terminaltexteffects impala \
-  visual-studio-code-bin
+# File managers
+pkg-add yazi                                  # TUI file manager
+pkg-add nautilus nautilus-python python-gobject sushi ffmpegthumbnailer
+
+# Notes / productivity
+pkg-add obsidian onlyoffice-desktopeditors evince pinta
+
+# Media
+pkg-add mpv imv obs-studio imagemagick
+
+# Communication
+pkg-add localsend
+
+# Password / secrets
+pkg-add 1password-beta 1password-cli
+
+# GNOME utilities
+pkg-add gnome-calculator gnome-disk-utility
 
 cd "$DOTFILES" && stow -d stow -t "$HOME" apps
 
-# Application icons (used by webapp and TUI .desktop entries)
-ICON_DIR="$HOME/.local/share/applications/icons"
-mkdir -p "$ICON_DIR"
-cp ~/.local/share/omarchy/applications/icons/*.png "$ICON_DIR/"
+# Icons come from the dashboardicons CDN; webapp-install/tui-install download
+# into ~/.local/share/applications/icons/ on first run.
+ICONS="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg"
 
 # Web apps
-omarchy-webapp-install "WhatsApp" https://web.whatsapp.com/ WhatsApp.png
-omarchy-webapp-install "Google Maps" https://maps.google.com "Google Maps.png"
-omarchy-webapp-install "ChatGPT" https://chatgpt.com/ ChatGPT.png
-omarchy-webapp-install "YouTube" https://youtube.com/ YouTube.png
-omarchy-webapp-install "GitHub" https://github.com/ GitHub.png
-omarchy-webapp-install "X" https://x.com/ X.png
-omarchy-webapp-install "Figma" https://figma.com/ Figma.png
-omarchy-webapp-install "Discord" https://discord.com/channels/@me Discord.png
+webapp-install "WhatsApp"    https://web.whatsapp.com/         "$ICONS/whatsapp.svg"
+webapp-install "Google Maps" https://maps.google.com           "$ICONS/google-maps.svg"
+webapp-install "YouTube"     https://youtube.com/              "$ICONS/youtube.svg"
+webapp-install "GitHub"      https://github.com/               "$ICONS/github.svg"
+webapp-install "X"           https://x.com/                    "$ICONS/x-light.svg"
+webapp-install "Figma"       https://figma.com/                "$ICONS/figma.svg"
+webapp-install "Discord"     https://discord.com/channels/@me  "$ICONS/discord.svg"
 
 # TUIs
-omarchy-tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'" float "$ICON_DIR/Disk Usage.png"
-omarchy-tui-install "Docker" "lazydocker" tile "$ICON_DIR/Docker.png"
+tui-install "Files"      "yazi"                             tile  "$ICONS/yazi.svg"
+tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'"  float "$ICONS/harddisk.svg"
+tui-install "Docker"     "lazydocker"                       tile  "$ICONS/docker.svg"
 
 # MIME type defaults
 update-desktop-database ~/.local/share/applications
@@ -82,30 +92,3 @@ xdg-mime default nvim.desktop text/x-c
 xdg-mime default nvim.desktop text/x-c++
 xdg-mime default nvim.desktop application/xml
 xdg-mime default nvim.desktop text/xml
-
-# VSCode configuration
-mkdir -p ~/.vscode ~/.config/Code/User
-cat > ~/.vscode/argv.json << 'ARGVEOF'
-{
-  "password-store":"gnome-libsecret"
-}
-ARGVEOF
-printf '{\n  "update.mode": "none"\n}\n' > ~/.config/Code/User/settings.json
-omarchy-theme-set-vscode
-
-# Install mise tools
-mise install
-
-# Note: the `nvim` package is installed above, but the editor config is not
-# managed by this installer. Bring your own LazyVim (or other) config under
-# ~/.config/nvim (to be stowed later).
-#
-# To hook your nvim into Omarchy's theme-sync system, add this single file to
-# your LazyVim plugin specs:
-#
-#     -- ~/.config/nvim/lua/plugins/omarchy-theme.lua
-#     return dofile(vim.fn.expand("~/.config/omarchy/current/theme/neovim.lua"))
-#
-# That loads whichever theme is currently set by `omarchy-theme-set` as a
-# LazyVim plugin spec. Restart nvim or run `:Lazy reload` after a theme change
-# to pick it up (omarchy-theme-set does not hot-reload running nvim instances).

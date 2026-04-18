@@ -26,7 +26,9 @@ DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"
 if [[ ! $ICON_URL =~ ^https?:// ]] && [[ -f $ICON_URL ]]; then
   ICON_PATH="$ICON_URL"
 else
-  ICON_PATH="$ICON_DIR/$APP_NAME.png"
+  ext="${ICON_URL##*.}"
+  [[ $ext =~ ^(png|svg|jpg|jpeg|webp|ico)$ ]] || ext=png
+  ICON_PATH="$ICON_DIR/$APP_NAME.$ext"
   mkdir -p "$ICON_DIR"
   if ! curl -sL -o "$ICON_PATH" "$ICON_URL"; then
     echo "Error: Failed to download icon."

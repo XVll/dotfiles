@@ -50,7 +50,9 @@ if [[ -z $ICON_REF ]]; then
 fi
 
 if [[ $ICON_REF =~ ^https?:// ]]; then
-  ICON_PATH="$ICON_DIR/$APP_NAME.png"
+  ext="${ICON_REF##*.}"
+  [[ $ext =~ ^(png|svg|jpg|jpeg|webp|ico)$ ]] || ext=png
+  ICON_PATH="$ICON_DIR/$APP_NAME.$ext"
   if ! curl -fsSL -o "$ICON_PATH" "$ICON_REF" || [[ ! -s $ICON_PATH ]]; then
     echo "Error: Failed to download icon."
     exit 1
