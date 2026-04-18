@@ -25,21 +25,21 @@ cd "$DOTFILES" && stow -d stow -t "$HOME" apps
 
 # Icons come from the dashboardicons CDN; webapp-install/tui-install download
 # into ~/.local/share/applications/icons/ on first run.
-ICONS="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg"
+ICONS="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png"
 
 # Web apps
-webapp-install "WhatsApp"    https://web.whatsapp.com/         "$ICONS/whatsapp.svg"
-webapp-install "Google Maps" https://maps.google.com           "$ICONS/google-maps.svg"
-webapp-install "YouTube"     https://youtube.com/              "$ICONS/youtube.svg"
-webapp-install "GitHub"      https://github.com/               "$ICONS/github.svg"
-webapp-install "X"           https://x.com/                    "$ICONS/x-light.svg"
-webapp-install "Figma"       https://figma.com/                "$ICONS/figma.svg"
-webapp-install "Discord"     https://discord.com/channels/@me  "$ICONS/discord.svg"
+webapp-install "WhatsApp"    https://web.whatsapp.com/         "$ICONS/whatsapp.png"
+webapp-install "Google Maps" https://maps.google.com           "$ICONS/google-maps.png"
+webapp-install "YouTube"     https://youtube.com/              "$ICONS/youtube.png"
+webapp-install "GitHub"      https://github.com/               "$ICONS/github.png"
+webapp-install "X"           https://x.com/                    "$ICONS/x-light.png"
+webapp-install "Figma"       https://figma.com/                "$ICONS/figma.png"
+webapp-install "Discord"     https://discord.com/channels/@me  "$ICONS/discord.png"
 
 # TUIs
-tui-install "Files"      "yazi"                             tile  "$ICONS/files.svg"
-tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'"  float "$ICONS/terminal.svg"
-tui-install "Docker"     "lazydocker"                       tile  "$ICONS/docker.svg"
+tui-install "Files"      "yazi"                             tile  "$ICONS/files.png"
+tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'"  float "$ICONS/terminal.png"
+tui-install "Docker"     "lazydocker"                       tile  "$ICONS/docker.png"
 
 # MIME type defaults
 update-desktop-database ~/.local/share/applications
