@@ -1,0 +1,7 @@
+# Changes require a session restart to take effect.
+
+export PATH=$HOME/.dotfiles/bin:$PATH:$HOME/.local/bin
+
+source ~/.config/uwsm/default
+
+command -v mise >/dev/null && eval "$(mise activate bash --shims)"
