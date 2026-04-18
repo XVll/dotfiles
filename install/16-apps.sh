@@ -37,8 +37,8 @@ webapp-install "Figma"       https://figma.com/                "$ICONS/figma.svg
 webapp-install "Discord"     https://discord.com/channels/@me  "$ICONS/discord.svg"
 
 # TUIs
-tui-install "Files"      "yazi"                             tile  "$ICONS/yazi.svg"
-tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'"  float "$ICONS/harddisk.svg"
+tui-install "Files"      "yazi"                             tile  "$ICONS/files.svg"
+tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'"  float "$ICONS/terminal.svg"
 tui-install "Docker"     "lazydocker"                       tile  "$ICONS/docker.svg"
 
 # MIME type defaults
