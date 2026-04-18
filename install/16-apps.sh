@@ -7,7 +7,7 @@ pkg-add yazi                                  # TUI file manager
 pkg-add nautilus nautilus-python python-gobject sushi ffmpegthumbnailer
 
 # Notes / productivity
-pkg-add obsidian onlyoffice-desktopeditors evince pinta
+pkg-add obsidian onlyoffice-bin evince pinta
 
 # Media
 pkg-add mpv imv obs-studio imagemagick
