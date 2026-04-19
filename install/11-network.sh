@@ -21,8 +21,6 @@ sudo systemctl enable --now bluetooth.service
 # Firewall (+ LocalSend ports, Docker DNS)
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw allow 53317/udp comment 'LocalSend'
-sudo ufw allow 53317/tcp comment 'LocalSend'
 sudo ufw allow 1714:1764/udp comment 'KDE Connect'
 sudo ufw allow 1714:1764/tcp comment 'KDE Connect'
 sudo ufw allow in proto udp from 172.16.0.0/12 to 172.17.0.1 port 53 comment 'allow-docker-dns'

@@ -31,8 +31,7 @@ pkg-add obsidian onlyoffice-bin evince pinta
 pkg-add mpv imv obs-studio imagemagick
 
 # Communication
-pkg-add localsend             # Cross-platform AirDrop alternative (UDP/TCP 53317)
-pkg-add kdeconnect            # Android phone <-> Linux: clipboard, files, notifications (UDP/TCP 1714-1764)
+pkg-add kdeconnect            # Phone <-> Linux: clipboard, files, notifications (UDP/TCP 1714-1764)
 
 # Password / secrets
 pkg-add 1password-beta 1password-cli
