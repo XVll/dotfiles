@@ -6,3 +6,7 @@ stow/shell/.config/fish/fish_variables
 # DMS matugen-generated palette files (land in stow'd dirs due to tree folding)
 stow/terminal/.config/kitty/dank-theme.conf
 stow/terminal/.config/kitty/dank-tabs.conf
+stow/terminal/.config/ghostty/themes/
+
+# Python bytecode (nautilus-python generates when loading extensions)
+__pycache__/
