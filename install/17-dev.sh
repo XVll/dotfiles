@@ -2,26 +2,19 @@
 
 # Dev domain: editors, VCS tools, runtimes, build tooling
 
-pkg-add nvim visual-studio-code-bin lazygit mise \
-  luarocks tree-sitter-cli postgresql-libs claude-code
+pkg-add nvim visual-studio-code-bin lazygit mise uv claude-code \
+  luarocks \
+  tree-sitter-cli \
+  postgresql-libs
+
+#   luarocks:          lua package manager — some nvim plugins need it at build time
+#   tree-sitter-cli:   for :TSInstallFromGrammar and local parser dev in nvim
+#   postgresql-libs:   libpq — required by DB clients, psycopg, language servers
 
 cd "$DOTFILES" && stow -d stow -t "$HOME" dev
 
-# VSCode: use gnome-keyring for secrets, disable auto-updates (Arch manages it)
-mkdir -p ~/.vscode ~/.config/Code/User
-cat > ~/.vscode/argv.json << 'ARGVEOF'
-{
-  "password-store":"gnome-libsecret"
-}
-ARGVEOF
-printf '{\n  "update.mode": "none"\n}\n' > ~/.config/Code/User/settings.json
+# VSCode settings + extensions: managed via VSCode Settings Sync (GitHub).
+# argv.json (gnome-keyring) is stowed — Settings Sync doesn't cover it.
 
-# Language runtimes via mise
-mise use --global node@latest
-mise use --global bun@latest
-mise use --global python@latest
-curl -fsSL https://astral.sh/uv/install.sh | sh
-mise use --global dotnet@latest
-
-# Install remaining mise-managed tools (npm packages in ~/.config/mise/config.toml)
+# Language runtimes + cli tools pinned in ~/.config/mise/config.toml
 mise install

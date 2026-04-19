@@ -28,6 +28,6 @@ source "$DOTFILES/install/11-network.sh"
 source "$DOTFILES/install/13-docker.sh"
 source "$DOTFILES/install/15-login.sh"
 source "$DOTFILES/install/16-apps.sh"
-# source "$DOTFILES/install/17-dev.sh"
+source "$DOTFILES/install/17-dev.sh"
 
 echo "Done."

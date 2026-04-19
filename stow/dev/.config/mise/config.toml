@@ -1,5 +1,8 @@
 [tools]
 node = "latest"
+bun = "latest"
+python = "latest"
+dotnet = "latest"
 
 "npm:@openai/codex" = "latest"
 "npm:@google/gemini-cli" = "latest"

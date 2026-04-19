@@ -6,7 +6,7 @@ from urllib.parse import unquote, urlparse
 
 from gi import require_version
 
-require_version("Nautilus", "4.0")
+require_version("Nautilus", "4.1")
 from gi.repository import GObject, Nautilus
 
 
