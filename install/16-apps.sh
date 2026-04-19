@@ -4,7 +4,25 @@
 
 # File managers
 pkg-add yazi                                  # TUI file manager
-pkg-add nautilus nautilus-python python-gobject sushi ffmpegthumbnailer
+
+# Nautilus + extensions + gvfs backends for network/phone browsing
+pkg-add nautilus              # GUI file manager
+pkg-add nautilus-python       # Python extension API (used by localsend extension)
+pkg-add python-gobject        # Python GTK bindings — required by nautilus-python
+pkg-add sushi                 # Spacebar quick-preview in nautilus
+pkg-add ffmpegthumbnailer     # Video thumbnails in nautilus
+pkg-add gvfs-mtp              # Android USB (MTP) mount shown in nautilus sidebar
+pkg-add gvfs-nfs              # NFS shares in nautilus Network pane (uses libnfs, userspace)
+pkg-add gvfs-smb              # SMB/Windows shares in nautilus Network pane (uses smbclient, userspace)
+pkg-add gvfs-afc              # iPhone (Apple File Conduit) mount in nautilus sidebar — needs usbmuxd
+
+# Lazy-unmount gvfs-fuse mounts pre-suspend so the kernel freeze phase
+# doesn't hang on FUSE tasks; restart gvfs-daemon post-resume.
+# See: https://github.com/systemd/systemd/issues/40574
+sudo mkdir -p /usr/lib/systemd/system-sleep
+sudo install -m 0755 -o root -g root \
+  "$DOTFILES/system/systemd/system-sleep/unmount-fuse" \
+  /usr/lib/systemd/system-sleep/
 
 # Notes / productivity
 pkg-add obsidian onlyoffice-bin evince pinta
@@ -13,7 +31,8 @@ pkg-add obsidian onlyoffice-bin evince pinta
 pkg-add mpv imv obs-studio imagemagick
 
 # Communication
-pkg-add localsend
+pkg-add localsend             # Cross-platform AirDrop alternative (UDP/TCP 53317)
+pkg-add kdeconnect            # Android phone <-> Linux: clipboard, files, notifications (UDP/TCP 1714-1764)
 
 # Password / secrets
 pkg-add 1password-beta 1password-cli
