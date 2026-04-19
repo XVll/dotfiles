@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Window manager domain: Hyprland, hypridle, hyprlock, hyprsunset, uwsm
+# Window manager domain: Hyprland + screenshot/recording/clipboard tooling.
+# DMS (see 15-login.sh) owns bar, notifs, lock, idle, OSD, wallpaper, polkit,
+# night mode — so no hypridle/hyprlock/hyprsunset/polkit-gnome/swaybg/swayosd.
 
-pkg-add hyprland hypridle hyprlock hyprsunset \
+pkg-add hyprland \
   xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
-  hyprland-preview-share-picker hyprland-guiutils \
-  polkit-gnome swaybg grim slurp hyprpicker satty \
-  brightnessctl wl-clipboard gpu-screen-recorder swayosd \
+  hyprland-preview-share-picker \
+  hyprpicker satty grim slurp \
+  brightnessctl playerctl wl-clipboard \
+  gpu-screen-recorder \
   qt5-wayland
 
 cd "$DOTFILES" && stow -d stow -t "$HOME" wm

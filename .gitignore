@@ -7,6 +7,7 @@ stow/shell/.config/fish/fish_variables
 stow/terminal/.config/kitty/dank-theme.conf
 stow/terminal/.config/kitty/dank-tabs.conf
 stow/terminal/.config/ghostty/themes/
+stow/wm/.config/hypr/dms/
 
 # Python bytecode (nautilus-python generates when loading extensions)
 __pycache__/
