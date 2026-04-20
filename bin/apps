@@ -80,17 +80,24 @@ cat_add() {
 # ─── Package install browser (sub-mode of `add` on package category) ────────
 
 pkg_search_install() {
+  local k=$'\e[1;36m' d=$'\e[2;37m' r=$'\e[0m'
+  local header
+  header="${k}space${r} select   ${k}↵${r} confirm   ${k}esc${r} cancel   ${k}alt-p${r} preview"
   local pkgs
   pkgs=$(paru -Slq | fzf \
+    --ansi \
     --multi \
+    --border=rounded \
+    --border-label=" install package " \
+    --header-first \
     --prompt='install> ' \
-    --header=$'space toggle · enter confirm · esc cancel · alt-p toggle preview' \
+    --header="$header" \
     --marker='● ' \
     --preview 'paru -Si {1} 2>/dev/null' \
     --preview-window 'right:60%:wrap' \
     --bind 'space:toggle+down' \
     --bind 'alt-p:toggle-preview' \
-    --color 'pointer:green,marker:green') || return
+    --color 'pointer:green,marker:green,border:cyan,label:cyan') || return
   [[ -z $pkgs ]] && return
   local count
   count=$(echo "$pkgs" | wc -l)
@@ -135,18 +142,24 @@ run_tui() {
   trap 'rm -f "$APPS_STATE"' EXIT
   echo package > "$APPS_STATE"
 
+  local k=$'\e[1;36m' r=$'\e[0m'
   local header
-  header=$'tab/S-tab cycle category  ·  space select  ·  enter details  ·  a add  ·  x uninstall  ·  q quit'
+  printf -v header '%stab%s next  %sS-tab%s prev  %sspace%s select  %sq%s quit\n%s↵%s details  %sa%s add  %sx%s uninstall' \
+    "$k" "$r" "$k" "$r" "$k" "$r" "$k" "$r" \
+    "$k" "$r" "$k" "$r" "$k" "$r"
 
   cat_list package | fzf \
     --ansi \
     --multi \
     --no-sort \
+    --border=rounded \
+    --border-label=" apps " \
+    --header-first \
     --prompt='package> ' \
     --header="$header" \
     --marker='● ' \
-    --color 'pointer:green,marker:green,header:cyan,prompt:magenta' \
-    --preview-window 'right:55%:wrap' \
+    --color 'pointer:green,marker:green,prompt:magenta,border:cyan,label:cyan' \
+    --preview-window 'right:55%:wrap,border-rounded' \
     --preview "$SELF --preview \"\$($SELF --current)\" {}" \
     --bind "tab:execute-silent($SELF --cycle)+reload($SELF --list \"\$($SELF --current)\")+transform-prompt(echo \"\$($SELF --current)> \")+refresh-preview+clear-selection" \
     --bind "btab:execute-silent($SELF --cycle-back)+reload($SELF --list \"\$($SELF --current)\")+transform-prompt(echo \"\$($SELF --current)> \")+refresh-preview+clear-selection" \
