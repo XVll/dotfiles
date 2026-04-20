@@ -1,23 +1,97 @@
 #!/bin/bash
-# apps — install/uninstall/list for packages, webapps, and TUIs.
+# apps — persistent TUI for managing packages, webapps, and TUIs.
+#
+# Categories: package | webapp | tui  (cycle with tab / shift-tab)
+# Actions:    enter details · a add · x uninstall · space select · q quit
+
+set -o pipefail
 
 DESKTOP_DIR="$HOME/.local/share/applications"
+ICON_DIR="$DESKTOP_DIR/icons"
+SELF=$(readlink -f "$0" 2>/dev/null || command -v "$0")
 
-# ─── Package flows ───────────────────────────────────────────────────────────
+# ─── Data per category ───────────────────────────────────────────────────────
 
-pkg_install() {
-  local fzf_args=(
-    --multi
-    --preview 'paru -Si {1} 2>/dev/null'
-    --preview-label='tab: multi-select · alt-p: toggle preview'
-    --preview-window 'down:65%:wrap'
-    --bind 'alt-p:toggle-preview'
-    --bind 'alt-d:preview-half-page-down,alt-u:preview-half-page-up'
-    --color 'pointer:green,marker:green'
-  )
+cat_list() {
+  case "$1" in
+    package) pacman -Qeq ;;
+    webapp)  grep -l 'Exec=.*launch-webapp\b' "$DESKTOP_DIR"/*.desktop 2>/dev/null \
+               | xargs -r -n1 basename -s .desktop | sort ;;
+    tui)     grep -lE 'Exec=.*(\$TERMINAL|xdg-terminal-exec).*-e' "$DESKTOP_DIR"/*.desktop 2>/dev/null \
+               | xargs -r -n1 basename -s .desktop | sort ;;
+  esac
+}
+
+cat_preview() {
+  local cat="$1" item="$2"
+  [[ -z $item ]] && { echo "(no selection)"; return; }
+  case "$cat" in
+    package)
+      pacman -Qi "$item" 2>/dev/null || echo "not installed: $item"
+      ;;
+    webapp|tui)
+      local f="$DESKTOP_DIR/$item.desktop"
+      [[ -f $f ]] && cat "$f" || echo "missing: $f"
+      ;;
+  esac
+}
+
+cat_details() {
+  local cat="$1" item="$2"
+  [[ -z $item ]] && return
+  case "$cat" in
+    package) paru -Si "$item" 2>/dev/null | less -R ;;
+    webapp|tui)
+      local f="$DESKTOP_DIR/$item.desktop"
+      [[ -f $f ]] && less "$f"
+      ;;
+  esac
+}
+
+cat_remove() {
+  local cat="$1"; shift
+  (( $# == 0 )) && return
+  case "$cat" in
+    package)
+      gum confirm "Remove $# package(s) and orphaned deps?" || return
+      source sudo-keepalive
+      paru -Rns --noconfirm "$@"
+      ;;
+    webapp|tui)
+      gum confirm "Remove $# $cat(s)?" || return
+      for name in "$@"; do
+        rm -f "$DESKTOP_DIR/$name.desktop"
+        rm -f "$ICON_DIR/$name".{png,svg,jpg,jpeg,webp,ico} 2>/dev/null
+        echo "removed $name"
+      done
+      ;;
+  esac
+  read -n 1 -s -r -p "press any key..."
+}
+
+cat_add() {
+  case "$1" in
+    package) pkg_search_install ;;
+    webapp)  webapp-install ;;
+    tui)     tui-install ;;
+  esac
+}
+
+# ─── Package install browser (sub-mode of `add` on package category) ────────
+
+pkg_search_install() {
   local pkgs
-  pkgs=$(paru -Slq | fzf "${fzf_args[@]}") || return
-  [[ -z $pkgs ]] && { echo "Nothing selected."; return; }
+  pkgs=$(paru -Slq | fzf \
+    --multi \
+    --prompt='install> ' \
+    --header=$'space toggle · enter confirm · esc cancel · alt-p toggle preview' \
+    --marker='● ' \
+    --preview 'paru -Si {1} 2>/dev/null' \
+    --preview-window 'right:60%:wrap' \
+    --bind 'space:toggle+down' \
+    --bind 'alt-p:toggle-preview' \
+    --color 'pointer:green,marker:green') || return
+  [[ -z $pkgs ]] && return
   local count
   count=$(echo "$pkgs" | wc -l)
   gum confirm "Install $count package(s)?" || return
@@ -25,78 +99,98 @@ pkg_install() {
   echo "$pkgs" | tr '\n' ' ' | xargs paru -S --noconfirm
 }
 
-pkg_uninstall() {
-  local fzf_args=(
-    --multi
-    --preview 'pacman -Qi {1}'
-    --preview-window 'down:55%:wrap'
-    --color 'pointer:red,marker:red'
-  )
-  local pkgs
-  pkgs=$(pacman -Qeq | fzf "${fzf_args[@]}") || return
-  [[ -z $pkgs ]] && { echo "Nothing selected."; return; }
-  local count
-  count=$(echo "$pkgs" | wc -l)
-  gum confirm "Remove $count package(s) and their orphaned deps?" || return
-  source sudo-keepalive
-  echo "$pkgs" | tr '\n' ' ' | xargs paru -Rns --noconfirm
+# ─── Category state (shared across fzf-spawned subshells) ───────────────────
+
+cat_cycle() {
+  local cur next
+  cur=$(cat "$APPS_STATE" 2>/dev/null) || cur=package
+  case "$cur" in
+    package) next=webapp ;;
+    webapp)  next=tui ;;
+    tui)     next=package ;;
+    *)       next=package ;;
+  esac
+  echo "$next" > "$APPS_STATE"
 }
 
-pkg_list() {
-  pacman -Qeq
+cat_cycle_back() {
+  local cur next
+  cur=$(cat "$APPS_STATE" 2>/dev/null) || cur=package
+  case "$cur" in
+    package) next=tui ;;
+    webapp)  next=package ;;
+    tui)     next=webapp ;;
+    *)       next=package ;;
+  esac
+  echo "$next" > "$APPS_STATE"
 }
 
-# ─── Webapp flows ────────────────────────────────────────────────────────────
+cat_current() { cat "$APPS_STATE" 2>/dev/null || echo package; }
 
-webapp_install() {
-  webapp-install
+# ─── TUI shell ──────────────────────────────────────────────────────────────
+
+run_tui() {
+  APPS_STATE=$(mktemp -t apps_state.XXXXXX)
+  export APPS_STATE
+  trap 'rm -f "$APPS_STATE"' EXIT
+  echo package > "$APPS_STATE"
+
+  local header
+  header=$'tab/S-tab cycle category  ·  space select  ·  enter details  ·  a add  ·  x uninstall  ·  q quit'
+
+  cat_list package | fzf \
+    --ansi \
+    --multi \
+    --no-sort \
+    --prompt='package> ' \
+    --header="$header" \
+    --marker='● ' \
+    --color 'pointer:green,marker:green,header:cyan,prompt:magenta' \
+    --preview-window 'right:55%:wrap' \
+    --preview "$SELF --preview \"\$($SELF --current)\" {}" \
+    --bind "tab:execute-silent($SELF --cycle)+reload($SELF --list \"\$($SELF --current)\")+transform-prompt(echo \"\$($SELF --current)> \")+refresh-preview+clear-selection" \
+    --bind "btab:execute-silent($SELF --cycle-back)+reload($SELF --list \"\$($SELF --current)\")+transform-prompt(echo \"\$($SELF --current)> \")+refresh-preview+clear-selection" \
+    --bind "space:toggle+down" \
+    --bind "enter:execute($SELF --details \"\$($SELF --current)\" {})" \
+    --bind "x:execute($SELF --remove \"\$($SELF --current)\" {+})+reload($SELF --list \"\$($SELF --current)\")" \
+    --bind "del:execute($SELF --remove \"\$($SELF --current)\" {+})+reload($SELF --list \"\$($SELF --current)\")" \
+    --bind "a:execute($SELF --add \"\$($SELF --current)\")+reload($SELF --list \"\$($SELF --current)\")" \
+    --bind "q:abort"
 }
 
-webapp_uninstall() {
-  webapp-uninstall
-}
-
-webapp_list() {
-  grep -l 'Exec=.*launch-webapp\b' "$DESKTOP_DIR"/*.desktop 2>/dev/null \
-    | xargs -r -n1 basename -s .desktop
-}
-
-# ─── TUI flows ───────────────────────────────────────────────────────────────
-
-tui_install_() {
-  tui-install
-}
-
-tui_uninstall() {
-  tui-uninstall
-}
-
-tui_list() {
-  grep -lE 'Exec=.*(\$TERMINAL|xdg-terminal-exec).*-e' "$DESKTOP_DIR"/*.desktop 2>/dev/null \
-    | xargs -r -n1 basename -s .desktop
-}
-
-# ─── Menu ────────────────────────────────────────────────────────────────────
+# ─── Dispatch ───────────────────────────────────────────────────────────────
 
 main() {
-  local cat="$1"
-  local act="$2"
-  [[ -z $cat ]] && cat=$(gum choose --header "What do you want to manage?" package webapp tui)
-  [[ -z $act ]] && act=$(gum choose --header "Action?" install uninstall list)
-  [[ -z $cat || -z $act ]] && exit 1
+  case "$1" in
+    "")            run_tui ;;
+    --list)        shift; cat_list "$@" ;;
+    --preview)     shift; cat_preview "$@" ;;
+    --details)     shift; cat_details "$@" ;;
+    --remove)      shift; cat_remove "$@" ;;
+    --add)         shift; cat_add "$@" ;;
+    --cycle)       cat_cycle ;;
+    --cycle-back)  cat_cycle_back ;;
+    --current)     cat_current ;;
+    -h|--help)
+      cat <<'EOF'
+apps — manage packages, webapps, and TUIs
 
-  case "$cat/$act" in
-    package/install)    pkg_install       ;;
-    package/uninstall)  pkg_uninstall     ;;
-    package/list)       pkg_list          ;;
-    webapp/install)     webapp_install    ;;
-    webapp/uninstall)   webapp_uninstall  ;;
-    webapp/list)        webapp_list       ;;
-    tui/install)        tui_install_      ;;
-    tui/uninstall)      tui_uninstall     ;;
-    tui/list)           tui_list          ;;
+Usage:
+  apps                  launch TUI
+  apps --list <cat>     plain list (cat = package|webapp|tui)
+  apps --add <cat>      run interactive add for category
+
+Inside the TUI:
+  tab / S-tab   cycle category
+  space         toggle multi-select
+  enter         details (man-page style)
+  a             add new
+  x / del       uninstall selected
+  q / esc       quit
+EOF
+      ;;
     *)
-      echo "Usage: apps [package|webapp|tui] [install|uninstall|list]"
+      echo "unknown: $1 — try 'apps --help'" >&2
       exit 1
       ;;
   esac
