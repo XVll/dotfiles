@@ -55,6 +55,8 @@ webapp-install "Figma"       https://figma.com/                "$ICONS/figma.png
 webapp-install "Discord"     https://discord.com/channels/@me  "$ICONS/discord.png"
 
 # TUIs
+pkg-add gum fzf paru                                # deps for `apps` TUI
+tui-install "Apps"       "apps"                             float "$ICONS/arch-linux.png"
 tui-install "Disk Usage" "bash -c 'dust -r; read -n 1 -s'"  float "$ICONS/terminal.png"
 tui-install "Docker"     "lazydocker"                       tile  "$ICONS/docker.png"
 

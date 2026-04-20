@@ -1,0 +1,105 @@
+#!/bin/bash
+# apps — install/uninstall/list for packages, webapps, and TUIs.
+
+DESKTOP_DIR="$HOME/.local/share/applications"
+
+# ─── Package flows ───────────────────────────────────────────────────────────
+
+pkg_install() {
+  local fzf_args=(
+    --multi
+    --preview 'paru -Si {1} 2>/dev/null'
+    --preview-label='tab: multi-select · alt-p: toggle preview'
+    --preview-window 'down:65%:wrap'
+    --bind 'alt-p:toggle-preview'
+    --bind 'alt-d:preview-half-page-down,alt-u:preview-half-page-up'
+    --color 'pointer:green,marker:green'
+  )
+  local pkgs
+  pkgs=$(paru -Slq | fzf "${fzf_args[@]}") || return
+  [[ -z $pkgs ]] && { echo "Nothing selected."; return; }
+  local count
+  count=$(echo "$pkgs" | wc -l)
+  gum confirm "Install $count package(s)?" || return
+  source sudo-keepalive
+  echo "$pkgs" | tr '\n' ' ' | xargs paru -S --noconfirm
+}
+
+pkg_uninstall() {
+  local fzf_args=(
+    --multi
+    --preview 'pacman -Qi {1}'
+    --preview-window 'down:55%:wrap'
+    --color 'pointer:red,marker:red'
+  )
+  local pkgs
+  pkgs=$(pacman -Qeq | fzf "${fzf_args[@]}") || return
+  [[ -z $pkgs ]] && { echo "Nothing selected."; return; }
+  local count
+  count=$(echo "$pkgs" | wc -l)
+  gum confirm "Remove $count package(s) and their orphaned deps?" || return
+  source sudo-keepalive
+  echo "$pkgs" | tr '\n' ' ' | xargs paru -Rns --noconfirm
+}
+
+pkg_list() {
+  pacman -Qeq
+}
+
+# ─── Webapp flows ────────────────────────────────────────────────────────────
+
+webapp_install() {
+  webapp-install
+}
+
+webapp_uninstall() {
+  webapp-uninstall
+}
+
+webapp_list() {
+  grep -l 'Exec=.*launch-webapp\b' "$DESKTOP_DIR"/*.desktop 2>/dev/null \
+    | xargs -r -n1 basename -s .desktop
+}
+
+# ─── TUI flows ───────────────────────────────────────────────────────────────
+
+tui_install_() {
+  tui-install
+}
+
+tui_uninstall() {
+  tui-uninstall
+}
+
+tui_list() {
+  grep -lE 'Exec=.*(\$TERMINAL|xdg-terminal-exec).*-e' "$DESKTOP_DIR"/*.desktop 2>/dev/null \
+    | xargs -r -n1 basename -s .desktop
+}
+
+# ─── Menu ────────────────────────────────────────────────────────────────────
+
+main() {
+  local cat="$1"
+  local act="$2"
+  [[ -z $cat ]] && cat=$(gum choose --header "What do you want to manage?" package webapp tui)
+  [[ -z $act ]] && act=$(gum choose --header "Action?" install uninstall list)
+  [[ -z $cat || -z $act ]] && exit 1
+
+  case "$cat/$act" in
+    package/install)    pkg_install       ;;
+    package/uninstall)  pkg_uninstall     ;;
+    package/list)       pkg_list          ;;
+    webapp/install)     webapp_install    ;;
+    webapp/uninstall)   webapp_uninstall  ;;
+    webapp/list)        webapp_list       ;;
+    tui/install)        tui_install_      ;;
+    tui/uninstall)      tui_uninstall     ;;
+    tui/list)           tui_list          ;;
+    *)
+      echo "Usage: apps [package|webapp|tui] [install|uninstall|list]"
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
