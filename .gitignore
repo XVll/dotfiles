@@ -11,3 +11,6 @@ stow/wm/.config/hypr/dms/
 
 # Python bytecode (nautilus-python generates when loading extensions)
 __pycache__/
+
+# VSCode installs extensions into ~/.vscode/extensions (stow-linked here)
+stow/dev/.vscode/extensions/
