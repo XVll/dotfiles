@@ -19,8 +19,7 @@ fzf_args=(
 pkg_names=$(paru -Slqa | fzf "${fzf_args[@]}")
 
 if [[ -n $pkg_names ]]; then
-  source omarchy-sudo-keepalive
+  source sudo-keepalive
 
   echo "$pkg_names" | tr '\n' ' ' | xargs paru -S --noconfirm
-  omarchy-show-done
 fi
