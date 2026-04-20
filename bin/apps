@@ -36,18 +36,6 @@ cat_preview() {
   esac
 }
 
-cat_details() {
-  local cat="$1" item="$2"
-  [[ -z $item ]] && return
-  case "$cat" in
-    package) paru -Si "$item" 2>/dev/null | less -R ;;
-    webapp|tui)
-      local f="$DESKTOP_DIR/$item.desktop"
-      [[ -f $f ]] && less "$f"
-      ;;
-  esac
-}
-
 cat_remove() {
   local cat="$1"; shift
   (( $# == 0 )) && return
@@ -69,7 +57,7 @@ cat_remove() {
   read -n 1 -s -r -p "press any key..."
 }
 
-cat_add() {
+cat_install() {
   case "$1" in
     package) pkg_search_install ;;
     webapp)  webapp-install ;;
@@ -77,7 +65,7 @@ cat_add() {
   esac
 }
 
-# ─── Package install browser (sub-mode of `add` on package category) ────────
+# ─── Install mode for packages (browse all available) ──────────────────────
 
 pkg_search_install() {
   local k=$'\e[1;36m' d=$'\e[2;37m' r=$'\e[0m'
@@ -120,18 +108,6 @@ cat_cycle() {
   echo "$next" > "$APPS_STATE"
 }
 
-cat_cycle_back() {
-  local cur next
-  cur=$(cat "$APPS_STATE" 2>/dev/null) || cur=package
-  case "$cur" in
-    package) next=tui ;;
-    webapp)  next=package ;;
-    tui)     next=webapp ;;
-    *)       next=package ;;
-  esac
-  echo "$next" > "$APPS_STATE"
-}
-
 cat_current() { cat "$APPS_STATE" 2>/dev/null || echo package; }
 
 # ─── TUI shell ──────────────────────────────────────────────────────────────
@@ -144,16 +120,16 @@ run_tui() {
 
   local k=$'\e[1;36m' r=$'\e[0m'
   local header
-  printf -v header '%stab%s next  %sS-tab%s prev  %sspace%s select  %sq%s quit\n%s↵%s details  %sa%s add  %sx%s uninstall' \
-    "$k" "$r" "$k" "$r" "$k" "$r" "$k" "$r" \
-    "$k" "$r" "$k" "$r" "$k" "$r"
+  printf -v header '%stab%s cycle  %sspace%s select  %sq%s quit\n%si%s install  %sx%s uninstall' \
+    "$k" "$r" "$k" "$r" "$k" "$r" \
+    "$k" "$r" "$k" "$r"
 
   cat_list package | fzf \
     --ansi \
     --multi \
     --no-sort \
     --border=rounded \
-    --border-label=" apps " \
+    --border-label=" apps · view " \
     --header-first \
     --prompt='package> ' \
     --header="$header" \
@@ -162,12 +138,11 @@ run_tui() {
     --preview-window 'right:55%:wrap,border-rounded' \
     --preview "$SELF --preview \"\$($SELF --current)\" {}" \
     --bind "tab:execute-silent($SELF --cycle)+reload($SELF --list \"\$($SELF --current)\")+transform-prompt(echo \"\$($SELF --current)> \")+refresh-preview+clear-selection" \
-    --bind "btab:execute-silent($SELF --cycle-back)+reload($SELF --list \"\$($SELF --current)\")+transform-prompt(echo \"\$($SELF --current)> \")+refresh-preview+clear-selection" \
     --bind "space:toggle+down" \
-    --bind "enter:execute($SELF --details \"\$($SELF --current)\" {})" \
+    --bind "enter:ignore" \
     --bind "x:execute($SELF --remove \"\$($SELF --current)\" {+})+reload($SELF --list \"\$($SELF --current)\")" \
     --bind "del:execute($SELF --remove \"\$($SELF --current)\" {+})+reload($SELF --list \"\$($SELF --current)\")" \
-    --bind "a:execute($SELF --add \"\$($SELF --current)\")+reload($SELF --list \"\$($SELF --current)\")" \
+    --bind "i:execute($SELF --install \"\$($SELF --current)\")+reload($SELF --list \"\$($SELF --current)\")" \
     --bind "q:abort"
 }
 
@@ -178,26 +153,23 @@ main() {
     "")            run_tui ;;
     --list)        shift; cat_list "$@" ;;
     --preview)     shift; cat_preview "$@" ;;
-    --details)     shift; cat_details "$@" ;;
     --remove)      shift; cat_remove "$@" ;;
-    --add)         shift; cat_add "$@" ;;
+    --install)     shift; cat_install "$@" ;;
     --cycle)       cat_cycle ;;
-    --cycle-back)  cat_cycle_back ;;
     --current)     cat_current ;;
     -h|--help)
       cat <<'EOF'
 apps — manage packages, webapps, and TUIs
 
 Usage:
-  apps                  launch TUI
-  apps --list <cat>     plain list (cat = package|webapp|tui)
-  apps --add <cat>      run interactive add for category
+  apps                   launch TUI
+  apps --list <cat>      plain list (cat = package|webapp|tui)
+  apps --install <cat>   run interactive install for category
 
-Inside the TUI:
-  tab / S-tab   cycle category
+Inside the TUI (view mode):
+  tab           cycle category
   space         toggle multi-select
-  enter         details (man-page style)
-  a             add new
+  i             enter install mode
   x / del       uninstall selected
   q / esc       quit
 EOF
