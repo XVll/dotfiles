@@ -19,7 +19,7 @@ export PATH="$DOTFILES/bin:$PATH"
 # Uncomment one at a time as we review each script.
 source "$DOTFILES/install/01-shell.sh"
 source "$DOTFILES/install/02-terminal.sh"
-# source "$DOTFILES/install/03-wm.sh"
+source "$DOTFILES/install/03-wm.sh"
 source "$DOTFILES/install/04-input.sh"
 source "$DOTFILES/install/07-audio.sh"
 source "$DOTFILES/install/09-browser.sh"
